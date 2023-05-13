@@ -12,4 +12,8 @@ class TeamTypeHistoryRepository {
   public function setTeamTypeHistory (Array $data) {
     return TeamTypeHistory::create($data);
   }
+
+  public function getTeamActualType (Team $team) {
+    return TeamTypeHistory::where('team_id', $team->id)->orderBy('created_at', 'desc')->get();
+  }
 }

@@ -1,5 +1,5 @@
 <div>
-    @if (Gate::check('addMember', $team))
+    @if (Gate::check('addMember', $team) && $team->personal_team == 0)
         <x-section-border />
 
         <!-- Add Team Member -->
@@ -76,7 +76,7 @@
         </div>
     @endif
 
-    @if ($team->teamInvitations->isNotEmpty() && Gate::check('addMember', $team))
+    @if ($team->teamInvitations->isNotEmpty() && Gate::check('addMember', $team) && $team->personal_team == 0)
         <x-section-border />
 
         <!-- Team Member Invitations -->
@@ -113,7 +113,7 @@
         </div>
     @endif
 
-    @if ($team->users->isNotEmpty())
+    @if ($team->users->isNotEmpty() && $team->personal_team == 0)
         <x-section-border />
 
         <!-- Manage Team Members -->
@@ -217,7 +217,7 @@
     </x-dialog-modal>
 
     <!-- Leave Team Confirmation Modal -->
-    <x-confirmation-modal wire:model="confirmingLeavingTeam">
+    {{--<x-confirmation-modal wire:model="confirmingLeavingTeam">
         <x-slot name="title">
             {{ __('Leave Team') }}
         </x-slot>
@@ -256,5 +256,5 @@
                 {{ __('Remove') }}
             </x-danger-button>
         </x-slot>
-    </x-confirmation-modal>
+    </x-confirmation-modal>--}}
 </div>

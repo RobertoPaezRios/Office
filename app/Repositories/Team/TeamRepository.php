@@ -12,8 +12,4 @@ class TeamRepository {
   public function isPersonal (Team $team) {
     return $team->personal_team;
   }
-
-  public function getType (Team $team) {
-    return $team->type;
-  }
 }

@@ -49,14 +49,4 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
-
-    /**
-     * Get the type associated with the Team
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function type(): HasOne
-    {
-        return $this->hasOne(TeamType::class, 'id', 'type_id');
-    }
 }

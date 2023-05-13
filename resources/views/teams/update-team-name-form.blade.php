@@ -1,3 +1,8 @@
+@php 
+$types = \App\Models\TeamType::all(); 
+$myTeam = \App\Models\Team::find(\Illuminate\Support\Facades\Auth::user()->current_team_id);
+@endphp
+
 <x-form-section submit="updateTeamName">
     <x-slot name="title">
         {{ __('Team Name') }}
@@ -35,16 +40,26 @@
         </div>
 
         <!-- Team Type -->
-        {{--<div class="col-span-6 sm:col-span-4">
+        @php 
+            if ($team->personal_team == 0) {
+                $myTypes = \App\Models\TeamTypeHistory::where('team_id', $team->id)->orderBy('created_at', 'desc')->get(); 
+                $actualType = \App\Models\TeamType::find($myTypes[0]->type_id);
+                $types = \App\Models\TeamType::all();
+            }
+        @endphp
+        @if ($team->personal_team == 0)
+        <div class="col-span-6 sm:col-span-4">
             <x-label for="type" class="mt-2" value="{{ __('Team Type') }}"/>
+            <span class="mt-2 text-gray-500 text-sm">Actual Team Type: <span class="font-bold text-gray-900">{{ucfirst($actualType->name)}}</span></span>
+
             <select name="type" id="type" wire:model.defer="state.type" class="block rounded mt-1 w-full">
+                <option value="0">Select the new type...</option>
                 @foreach ($types as $key => $type)
-                    @if ($key == 0) @continue @endif
-                    <option value="{{$type->id}}" @if ($type->id == $myTeam->type->id) selected @endif>{{ucfirst($type->name)}}</option>
+                    <option value="{{$type->id}}" @if ($type->id == $actualType->id) selected @endif>{{ucfirst($type->name)}}</option>
                 @endforeach
             </select>
             <x-input-error for="type" class="mt-2"/>
-        </div>--}}
+        </div>@endif
     </x-slot>
 
     @if (Gate::check('update', $team))
