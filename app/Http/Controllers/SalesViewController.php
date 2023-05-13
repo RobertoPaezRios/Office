@@ -46,6 +46,7 @@ class SalesViewController extends Controller
 
     public function index () {
         $user = Auth::user();
+        if ($user->current_team_id == null) return view('dashboard');
         $team = $this->teamService->getTeam($user->current_team_id);
 
         if ($this->teamService->isPersonal($team)) {

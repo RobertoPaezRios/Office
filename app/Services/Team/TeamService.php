@@ -32,6 +32,8 @@ class TeamService {
   }
 
   public function isPersonal (Team $team) {
-    return $this->teamRepository->isPersonal($team);
+    if ($team->personal_team == 1) return true;
+
+    return false;
   }
 }
