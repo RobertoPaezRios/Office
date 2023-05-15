@@ -9,13 +9,19 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Contracts\UpdatesTeamNames;
 
 use App\Services\Team\TeamTypeHistoryService;
+use App\Services\Team\TeamTypeService;
 
 class UpdateTeamName implements UpdatesTeamNames
 {
     private $teamTypeHistoryService;
+    private $teamTypeService;
 
-    public function __construct (TeamTypeHistoryService $teamTypeHistoryService) {
+    public function __construct (
+        TeamTypeHistoryService $teamTypeHistoryService,
+        TeamTypeService $teamTypeService
+    ) {
         $this->teamTypeHistoryService = $teamTypeHistoryService;
+        $this->teamTypeService = $teamTypeService;
     }
 
     /**
@@ -35,6 +41,13 @@ class UpdateTeamName implements UpdatesTeamNames
         $team->forceFill([
             'name' => $input['name']
         ])->save();
+
+        //CHECK IF THE NEW TYPE IS USER PROPERTY
+        if ($input['type'] == $this->teamTypeService->getOwner($input['type'])) {
+            dd ('si');
+        } else {
+            dd ('no');
+        }
 
         if ($team->personal_team == 0) {   
             //GUARDAR REGISTRO EN TEAM TYPE HISTORY

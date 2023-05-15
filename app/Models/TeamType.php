@@ -14,6 +14,7 @@ class TeamType extends Model
         'sip',
         'marketing',
         'support',
-        'central'
+        'central',
+        'user_id'
     ];
 }

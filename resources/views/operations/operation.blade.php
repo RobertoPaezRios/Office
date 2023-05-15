@@ -158,11 +158,11 @@
                                             €</span><br>
                                     </div>
                                     <div>
-																<h5 class="mt-5">
-																	{{number_format($levels[0]->level / 2, 2, ',', '.')}} 
-																	%
-																</h5>
-															</div>
+                                        <h5 class="mt-5">
+                                            {{number_format($levels[0]->level / 2, 2, ',', '.')}} 
+                                            %
+                                        </h5>
+                                    </div>
                                 </div>
                                 <div class="flex justify-between">
                                     <div>

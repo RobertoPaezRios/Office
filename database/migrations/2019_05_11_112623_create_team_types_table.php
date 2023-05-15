@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('sip');
+            $table->unsignedBigInteger('user_id');
             $table->integer('central');
             $table->integer('marketing');
             $table->integer('support');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

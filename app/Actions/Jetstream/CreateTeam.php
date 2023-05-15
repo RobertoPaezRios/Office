@@ -10,13 +10,20 @@ use Laravel\Jetstream\Contracts\CreatesTeams;
 use Laravel\Jetstream\Events\AddingTeam;
 use Laravel\Jetstream\Jetstream;
 use App\Services\Team\TeamTypeHistoryService;
+use App\Services\Team\TeamTypeService;
+use Illuminate\Support\Facades\Auth;
 
 class CreateTeam implements CreatesTeams
 {
     private $teamTypeHistoryService;
+    private $teamTypeService;
 
-    public function __construct (TeamTypeHistoryService $teamTypeHistoryService) {
+    public function __construct (
+        TeamTypeHistoryService $teamTypeHistoryService,
+        TeamTypeService $teamTypeService
+    ) {
         $this->teamTypeHistoryService = $teamTypeHistoryService;
+        $this->teamTypeService = $teamTypeService;    
     }
 
     /**
@@ -24,7 +31,7 @@ class CreateTeam implements CreatesTeams
      *
      * @param  array<string, string>  $input
      */
-    public function create(User $user, array $input): Team
+    public function create(User $user, array $input)
     {
 
         Gate::forUser($user)->authorize('create', Jetstream::newTeamModel());
@@ -33,6 +40,10 @@ class CreateTeam implements CreatesTeams
             'name' => ['required', 'string', 'max:255'],     
             'type' => ['required'] 
         ])->validateWithBag('createTeam');
+
+        if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {
+            return redirect()->route('dashboard')->with('status', 'The team type selected is not yours!')->with('style', 'danger');
+        }
 
         AddingTeam::dispatch($user);
 

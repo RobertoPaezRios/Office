@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalesViewController;
+use App\Http\Controllers\TypesAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,6 @@ Route::middleware([
     Route::get('/operation/{id}', [SaleController::class, 'display'])
         ->name('operation');
 
-    Route::get('/team', function () {return 'helloWorld';});
+    Route::get('/types-admin', [TypesAdminController::class, 'index'] 
+        )->name('types-admin');
 });
