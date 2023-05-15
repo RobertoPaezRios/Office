@@ -44,7 +44,8 @@ $myTeam = \App\Models\Team::find(\Illuminate\Support\Facades\Auth::user()->curre
             if ($team->personal_team == 0) {
                 $myTypes = \App\Models\TeamTypeHistory::where('team_id', $team->id)->orderBy('created_at', 'desc')->get(); 
                 $actualType = \App\Models\TeamType::find($myTypes[0]->type_id);
-                $types = \App\Models\TeamType::all();
+                $user = Illuminate\Support\Facades\Auth::user();
+                $types = \App\Models\TeamType::where('user_id', $user->id)->get();
             }
         @endphp
         @if ($team->personal_team == 0)

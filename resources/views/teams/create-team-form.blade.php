@@ -27,7 +27,10 @@
             <x-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autofocus />
             <x-input-error for="name" class="mt-2" />
             <x-label for="type" class="mt-2" value="{{ __('Team Type') }}"/>
-            @php $types = \App\Models\TeamType::all(); @endphp
+            @php 
+            $user = Illuminate\Support\Facades\Auth::user();
+            $types = \App\Models\TeamType::where('user_id', $user->id)->get(); 
+            @endphp
             <select id="type" name="type" wire:model.defer="state.type" class="block rounded mt-1 w-full">
                 <option value="0">Choose a Type...</option>
                 @foreach ($types as $key => $type) 
