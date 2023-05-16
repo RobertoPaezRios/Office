@@ -13,6 +13,14 @@ class TeamTypeRepository {
     return TeamType::find($id);
   }
 
+  public function getUserTypes ($userId) {
+    return TeamType::where('user_id', $userId)->get();
+  }
+
+  public function getUserTypesWithPaginate($userId, $itemsPerPage) {
+    return TeamType::where('user_id', $userId)->paginate($itemsPerPage);
+  }
+
   public function getOwner ($typeId) {
     return TeamType::find($typeId)->user_id;
   }

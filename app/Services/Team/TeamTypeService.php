@@ -17,6 +17,14 @@ class TeamTypeService {
     return $this->teamTypeRepository->getType($id);
   }
 
+  public function getUserTypes ($userId) {
+    return $this->teamTypeRepository->getUserTypes($userId);
+  }
+
+  public function getUserTypesWithPaginate($userId, $itemsPerPage) {
+    return $this->teamTypeRepository->getUserTypesWithPaginate($userId, $itemsPerPage);
+  }
+
   public function getTypes () {
     return $this->teamTypeRepository->getTypes();
   }
