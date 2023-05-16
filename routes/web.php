@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalesViewController;
-use App\Http\Controllers\TypesAdminController;
+use App\Http\Controllers\TeamTypes\TypesAdminController;
+use App\Http\Controllers\TeamTypes\AddTeamTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,10 @@ Route::middleware([
 
     Route::get('/types-admin', [TypesAdminController::class, 'index'] 
         )->name('types-admin');
+
+    Route::get('/add-team-type', [AddTeamTypeController::class, 'create'])
+        ->name('add-team-type');
+
+    Route::post('/store-team-type', [AddTeamTypeController::class, 'store'])
+        ->name('store-team-type');
 });

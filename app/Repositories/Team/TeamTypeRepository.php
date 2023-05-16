@@ -9,6 +9,10 @@ class TeamTypeRepository {
     return TeamType::all();
   }
 
+  public function setType ($data) {
+    return TeamType::create($data);
+  }
+
   public function getType ($id) {
     return TeamType::find($id);
   }

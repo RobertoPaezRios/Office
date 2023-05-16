@@ -17,6 +17,10 @@ class TeamTypeService {
     return $this->teamTypeRepository->getType($id);
   }
 
+  public function setType ($data) {
+    return $this->teamTypeRepository->setType($data);
+  }
+
   public function getUserTypes ($userId) {
     return $this->teamTypeRepository->getUserTypes($userId);
   }

@@ -4,19 +4,23 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           {{ __('Types Admin') }}
         </h2>
-
-        <x-button class="bg-green-600 hover:bg-green-700">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>                  
-          Add new Type
-        </x-button>
+        <a href="{{route('add-team-type')}}">
+          <x-button class="bg-green-600 hover:bg-green-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>                  
+            Add new Type
+          </x-button>
+        </a>
       </div>
     </x-slot>
 
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-gray-50 overflow-hidden sm:rounded-lg">
+        @if (session('status'))
+          <x-banner message="{{session('status')}}" style="{{session('style')}}"/>
+        @endif
         <div class="p-6">   
           <div class="relative overflow-x-auto bg-white shadow-md p-4 sm:rounded-lg">
             <!-- SEARCH FORM -->
@@ -92,6 +96,9 @@
                   @endforeach
               </tbody>
             </table>
+            <div class="mt-5">
+              {{$types->links()}}
+            </div>
           </div>
         </div>      
       </div>
