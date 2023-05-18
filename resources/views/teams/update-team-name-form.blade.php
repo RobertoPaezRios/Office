@@ -56,7 +56,9 @@ $myTeam = \App\Models\Team::find(\Illuminate\Support\Facades\Auth::user()->curre
             <select name="type" id="type" wire:model.defer="state.type" class="block rounded mt-1 w-full">
                 <option value="0">Select the new type...</option>
                 @foreach ($types as $key => $type)
-                    <option value="{{$type->id}}" @if ($type->id == $actualType->id) selected @endif>{{ucfirst($type->name)}}</option>
+                    @if ($type->id != $actualType->id)
+                        <option value="{{$type->id}}">{{ucfirst($type->name)}}</option>
+                    @endif
                 @endforeach
             </select>
             <x-input-error for="type" class="mt-2"/>

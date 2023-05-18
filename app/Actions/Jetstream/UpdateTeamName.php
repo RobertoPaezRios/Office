@@ -44,8 +44,10 @@ class UpdateTeamName implements UpdatesTeamNames
         ])->save();
 
         //CHECK IF THE NEW TYPE IS USER PROPERTY
-        if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {
-            return redirect()->route('dashboard')->with('status', 'The team type selected is not yours!')->with('style', 'danger');
+        if (!empty($input['type'])) {
+            if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {
+                return redirect()->route('dashboard')->with('status', 'The team type selected is not yours!')->with('style', 'danger');
+            }
         }
 
         if ($team->personal_team == 0) {   
