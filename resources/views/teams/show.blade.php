@@ -6,6 +6,10 @@
         </h2>
     </x-slot>
 
+    @if (session('status'))
+        <x-banner message="{{session('status')}}" style="{{session('style')}}"/>
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
     </script>
@@ -386,14 +390,14 @@
                                                         </div>
                                                         <div class="modal-body">Are you sure you want to delete this register?, this will be permanent. </div>
                                                         <div class="modal-footer">
-                                                            <x-danger-button type="button" data-bs-dismiss="modal">
+                                                            <x-button type="button" data-bs-dismiss="modal">
                                                                 Close
-                                                            </x-danger-button>
-                                                            <x-button type="button" class="btn btn-primary">
-                                                                <a href="/">
+                                                            </x-button>
+                                                            <x-danger-button type="button">
+                                                                <a href="{{route('delete-team-type-history', $type['id'])}}">
                                                                     Delete
                                                                 </a>
-                                                            </x-button>
+                                                            </x-danger-button>
                                                         </div>
                                                     </div>
                                                 </div>
