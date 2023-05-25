@@ -404,11 +404,13 @@
                                             </div>
                                             @elseif ($type['deletable'] == 'change')
                                                 <div class="flex justify-between">
-                                                    <form action="#" method="POST" class="flex justify-between">
+                                                    <form action="/update-team-type-history" method="POST" class="flex justify-between w-full">
                                                         @csrf
                                                         <select name="type" id="type" class="block rounded mt-1 w-full">
-                                                        @foreach ($types as $key => $type)
-                                                                <option value="{{$type['id']}}">{{$type['name']}}</option>
+                                                        @foreach ($myTypes as $key => $type)
+                                                            <option value="{{$type['id']}}">
+                                                                {{$type['name']}}
+                                                            </option>
                                                         @endforeach
                                                         </select>
                                                         <x-button class="ml-2 mt-1" id="update-type-btn">

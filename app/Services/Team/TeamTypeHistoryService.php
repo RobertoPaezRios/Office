@@ -15,6 +15,10 @@ class TeamTypeHistoryService {
     return $this->teamTypeHistoryRepository->getTeamTypeHistory($team);
   }
 
+  public function updateTeamTypeHistory ($id, $typeId) {
+    $this->teamTypeHistoryRepository->updateTeamTypeHistory($id, $typeId);
+  }
+
   public function destroyTeamTypeHistory ($id) {
     return $this->teamTypeHistoryRepository->destroyTeamTypeHistory($id);
   }

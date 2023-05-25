@@ -6,11 +6,21 @@ use App\Models\Team;
 
 class TeamTypeHistoryRepository {
   public function getTeamTypeHistory (Team $team) {
-    return TeamTypeHistory::team();
+    return TeamTypeHistory::where('team_id', $team->id)->get();
   }
 
   public function setTeamTypeHistory (Array $data) {
     return TeamTypeHistory::create($data);
+  }
+
+  public function updateTeamTypeHistory ($id, $typeId) {
+    if (TeamTypeHistory::find($id)) {
+      $type = TeamTypeHistory::find($id);
+      $type->type_id = $typeId;
+      return $type->save();
+    }
+
+    return false;
   }
 
   public function destroyTeamTypeHistory ($id) {

@@ -7,6 +7,7 @@ use App\Http\Controllers\SalesViewController;
 use App\Http\Controllers\TeamTypes\TypesAdminController;
 use App\Http\Controllers\TeamTypes\AddTeamTypeController;
 use App\Http\Controllers\TeamTypes\DeleteTeamTypeHistory;
+use App\Http\Controllers\TeamTypes\UpdateTeamTypeHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,7 @@ Route::middleware([
 
     Route::get('/delete-team-type-history/{id}', [DeleteTeamTypeHistory::class, 'destroy'])
         ->name('delete-team-type-history');
+
+    Route::post('/update-team-type-history', [UpdateTeamTypeHistoryController::class, 'update'])
+        ->name('update-team-type-history');
 });
