@@ -356,14 +356,14 @@
                                 <tr>
                                     <th scope="col" class="px-6 py-3">Type Name </th>
                                     <th scope="col" class="px-6 py-3">Updated At </th>
-                                    <th scope="col" class="px-6 py-3">Delete Register </th>
+                                    <th scope="col" class="px-6 py-3">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($types as $key=> $type) 
                                 <tr class="bg-white border-b hover:bg-gray-50">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> 
-                                        {{$type['name']}}
+                                        {{ucfirst($type['name'])}}
                                     </th>
                                     <td class="px-6 py-4"> 
                                         {{$type['created_at']}}
@@ -402,6 +402,28 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @elseif ($type['deletable'] == 'change')
+                                                <div class="flex justify-between">
+                                                    @php 
+                                                        $actualType = $types[0]['id'];
+                                                        $user = Illuminate\Support\Facades\Auth::user();
+                                                        $types = \App\Models\TeamType::where('user_id', $user->id)->get();
+                                                    @endphp
+                                                    <select name="type" id="type" class="block rounded mt-1 w-full">
+                                                        <option value="0">Select the new type...</option>
+                                                       
+                                                    </select>
+                                                    <x-button class="ml-2 mt-1" id="update-type-btn">
+                                                        <div id="update-icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                                            </svg>
+                                                        </div>
+                                                        <span class="ml-2">
+                                                            Update
+                                                        </span>                                                          
+                                                    </x-button>
+                                                </div>
                                             @else
                                                 <x-button class="hover:bg-gray-800" disabled>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

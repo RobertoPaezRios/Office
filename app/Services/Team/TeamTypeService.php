@@ -13,6 +13,10 @@ class TeamTypeService {
     $this->teamTypeRepository = $teamTypeRepository;
   }
 
+  public function userCanDelete ($userId, $typeId) {
+    return $this->teamTypeRepository->userCanDelete($userId, $typeId);
+  }
+
   public function getType ($id) {
     return $this->teamTypeRepository->getType($id);
   }

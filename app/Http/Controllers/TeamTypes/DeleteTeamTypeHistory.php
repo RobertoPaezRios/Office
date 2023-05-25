@@ -7,16 +7,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use App\Services\Team\TeamTypeHistoryService;
+use App\Services\Team\TeamTypeService;
 
 class DeleteTeamTypeHistory extends Controller
 {
     private $teamTypeHistoryService;
+    private $teamTypeService;
 
-    public function __construct (TeamTypeHistoryService $teamTypeHistoryService) {
+    public function __construct (
+        TeamTypeHistoryService $teamTypeHistoryService,
+        TeamTypeService $teamTypeService
+        ) {
         $this->teamTypeHistoryService = $teamTypeHistoryService;
+        $this->teamTypeService = $teamTypeService;
     }
 
     public function destroy ($id) {
+        if (!$this->teamTypeService->userCanDelete(Auth::user()->id, $id)) {
+            return redirect('/');
+        }
+
         $res = $this->teamTypeHistoryService->destroyTeamTypeHistory($id);
 
         if (!$res) {   
