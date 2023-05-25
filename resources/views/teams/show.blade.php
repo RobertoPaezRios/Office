@@ -357,6 +357,7 @@
                                     <th scope="col" class="px-6 py-3">Type Name </th>
                                     <th scope="col" class="px-6 py-3">Updated At </th>
                                     <th scope="col" class="px-6 py-3">Actions</th>
+                                    <th scope="col" class="px-6 py-3">Nº Sales</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -432,6 +433,15 @@
                                                     </svg>                                                      
                                                 </x-button>
                                             @endif
+                                    </td>
+                                    <td>
+                                        <span class="text-gray-800 font-semibold">
+                                            @if ($type['nSales'] < 1) 
+                                                0
+                                            @else
+                                                {{$type['nSales']}}
+                                            @endif
+                                        </span>
                                     </td>
                                 </tr>@endforeach </tbody>
                         </table>
