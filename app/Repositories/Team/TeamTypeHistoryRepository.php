@@ -20,4 +20,16 @@ class TeamTypeHistoryRepository {
   public function getTeamActualType (Team $team) {
     return TeamTypeHistory::where('team_id', $team->id)->orderBy('created_at', 'desc')->get();
   }
+
+  public function getTeamTypeHistoryByTeamId ($teamId) {
+    return TeamTypeHistory::where('team_id', $teamId)->get();
+  }
+
+  public function getTeamTypeHistoryById ($id) {
+    return TeamTypeHistory::find($id);
+  }
+
+  public function getTeamTypeHistoryUserOwner ($typeId) {
+    return TeamTypeHistory::find($typeId)->type->user_id;
+  }
 }

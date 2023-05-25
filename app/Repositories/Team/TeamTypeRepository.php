@@ -10,6 +10,7 @@ class TeamTypeRepository {
   }
 
   public function userCanDelete ($userId, $typeId) {
+    
     if (TeamType::find($typeId)->user_id == $userId) {
       return true;
     }

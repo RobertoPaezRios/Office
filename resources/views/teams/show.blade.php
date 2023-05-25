@@ -404,25 +404,24 @@
                                             </div>
                                             @elseif ($type['deletable'] == 'change')
                                                 <div class="flex justify-between">
-                                                    @php 
-                                                        $actualType = $types[0]['id'];
-                                                        $user = Illuminate\Support\Facades\Auth::user();
-                                                        $types = \App\Models\TeamType::where('user_id', $user->id)->get();
-                                                    @endphp
-                                                    <select name="type" id="type" class="block rounded mt-1 w-full">
-                                                        <option value="0">Select the new type...</option>
-                                                       
-                                                    </select>
-                                                    <x-button class="ml-2 mt-1" id="update-type-btn">
-                                                        <div id="update-icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                                            </svg>
-                                                        </div>
-                                                        <span class="ml-2">
-                                                            Update
-                                                        </span>                                                          
-                                                    </x-button>
+                                                    <form action="#" method="POST" class="flex justify-between">
+                                                        @csrf
+                                                        <select name="type" id="type" class="block rounded mt-1 w-full">
+                                                        @foreach ($types as $key => $type)
+                                                                <option value="{{$type['id']}}">{{$type['name']}}</option>
+                                                        @endforeach
+                                                        </select>
+                                                        <x-button class="ml-2 mt-1" id="update-type-btn">
+                                                            <div id="update-icon">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                                                </svg>
+                                                            </div>
+                                                            <span class="ml-2">
+                                                                Update
+                                                            </span>                                                          
+                                                        </x-button>
+                                                    </form>
                                                 </div>
                                             @else
                                                 <x-button class="hover:bg-gray-800" disabled>

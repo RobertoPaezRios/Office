@@ -25,4 +25,12 @@ class TeamTypeHistoryService {
       'type_id' => $typeId,
     ]);
   }
+
+  public function userCanDelete ($userId, $typeId) {
+    if ($this->teamTypeHistoryRepository->getTeamTypeHistoryById($typeId)) { 
+      return $this->teamTypeHistoryRepository->getTeamTypeHistoryUserOwner($typeId) == $userId;
+    }
+    
+    return false;
+  }
 }
