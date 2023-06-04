@@ -6,6 +6,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalesViewController;
 use App\Http\Controllers\TeamTypes\TypesAdminController;
 use App\Http\Controllers\TeamTypes\AddTeamTypeController;
+use App\Http\Controllers\TeamTypes\DeleteTeamTypeController;
 use App\Http\Controllers\TeamTypes\DeleteTeamTypeHistory;
 use App\Http\Controllers\TeamTypes\UpdateTeamTypeHistoryController;
 
@@ -52,6 +53,9 @@ Route::middleware([
 
     Route::post('/store-team-type', [AddTeamTypeController::class, 'store'])
         ->name('store-team-type');
+    
+    Route::get('/delete-team-type/{id}', [DeleteTeamTypeController::class, 'destroy'])
+        ->name('delete-team-type');
 
     Route::get('/delete-team-type-history/{id}', [DeleteTeamTypeHistory::class, 'destroy'])
         ->name('delete-team-type-history');

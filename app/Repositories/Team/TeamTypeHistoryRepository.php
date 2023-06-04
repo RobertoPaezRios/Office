@@ -13,6 +13,22 @@ class TeamTypeHistoryRepository {
     return TeamTypeHistory::create($data);
   }
 
+  public function listTeamTypeHistorics ($typeId) {
+    return TeamTypeHistory::where('type_id', $typeId)->get();
+  }
+
+  public function listTeamTypeHistoricsByTypeId ($typeId) {
+    return TeamTypeHistory::where('type_id', $typeId)->get();
+  }
+
+  public function listTeamTypeHistoricsIds ($typeId) {
+    return TeamTypeHistory::where('type_id', $typeId)->get('id');
+  }
+
+  public function listSalesByHistoric ($historicId) {
+    return TeamTypeHistory::findOrFail($historicId)->sales;
+  }
+
   public function updateTeamTypeHistory ($id, $typeId) {
     if (TeamTypeHistory::find($id)) {
       $type = TeamTypeHistory::find($id);

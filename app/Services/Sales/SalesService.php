@@ -37,6 +37,14 @@ class SalesService {
     return $this->saleRepository->getMySalesWithPaginate($idUser, $itemsPerPage);
   }
 
+  public function listSalesByTypeId ($id) {
+    return $this->saleRepository->listSalesByTypeId($id);
+  }
+
+  public function countSalesByHistoricsIds (array $ids) {
+    return $this->saleRepository->countSalesByHistoricsIds($ids);
+  }
+
   public function getSale($id) {
     return $this->saleRepository->getSale($id);
   }

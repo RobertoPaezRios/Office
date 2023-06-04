@@ -15,6 +15,26 @@ class TeamTypeHistoryService {
     return $this->teamTypeHistoryRepository->getTeamTypeHistory($team);
   }
 
+  public function listSalesByHistoric ($historicId) {
+    return $this->teamTypeHistoryRepository->listSalesByHistoric($historicId);
+  }
+
+  public function listTeamTypeHistoricsByTypeId ($typeId) {
+    return $this->teamTypeHistoryRepository->listTeamTypeHistoricsByTypeId($typeId);
+  }
+
+  public function listTeamTypeHistoricsIds ($historicId) {
+    return $this->teamTypeHistoryRepository->listTeamTypeHistoricsIds($historicId);
+  }
+
+  public function getTeamTypeHistoryById ($id) {
+    return $this->teamTypeHistoryRepository->getTeamTypeHistoryById($id);
+  }
+
+  public function listTeamTypeHistorics ($typeId) {
+    return $this->teamTypeHistoryRepository->listTeamTypeHistorics ($typeId);
+  }
+
   public function updateTeamTypeHistory ($id, $typeId) {
     $this->teamTypeHistoryRepository->updateTeamTypeHistory($id, $typeId);
   }

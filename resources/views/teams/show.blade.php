@@ -346,7 +346,7 @@
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             @livewire('teams.update-team-name-form', ['team'=> $team, 'types'=> $types]) 
-            @if (!$team->personal_team)
+            @if ($team->personal_team == 0)
             <div class="bg-white shadow-md mt-7 text-center rounded-lg mx-auto sm:px-6 lg:px-8">
                 <div class="py-2">
                     <h4 class="font-semibold text-gray-700 py-2 text-left">Team Historic </h4>

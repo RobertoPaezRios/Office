@@ -3,6 +3,7 @@
 namespace App\Services\Team;
 
 use App\Repositories\Team\TeamTypeRepository;
+use App\Repositories\Team\TeamTypeHistoryRepository;
 
 use App\Models\TeamType;
 
@@ -15,6 +16,14 @@ class TeamTypeService {
 
   public function userCanDelete ($userId, $typeId) {
     return $this->teamTypeRepository->userCanDelete($userId, $typeId);
+  }
+
+  public function listVinculatedTeams ($typeId) {
+    return $this->teamTypeRepository->listVinculatedTeams ($typeId);
+  }
+
+  public function destroyType ($id) {
+    return $this->teamTypeRepository->destroyType($id);
   }
 
   public function getType ($id) {

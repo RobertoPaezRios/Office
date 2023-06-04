@@ -18,6 +18,14 @@ class TeamTypeRepository {
     return false;
   }
 
+  public function listVinculatedTeams ($typeId) {
+    return TeamType::find($typeId)->historics;
+  }
+
+  public function destroyType($id) {
+    return TeamType::find($id)->delete();
+  }
+
   public function setType ($data) {
     return TeamType::create($data);
   }

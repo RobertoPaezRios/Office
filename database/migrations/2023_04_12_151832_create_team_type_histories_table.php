@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             
             $table->foreign('team_id')->references('id')->on('teams');
-            $table->foreign('type_id')->references('id')->on('team_types');
+            $table->foreign('type_id')->references('id')->on('team_types')->onDelete('cascade');
         });
     }
 
