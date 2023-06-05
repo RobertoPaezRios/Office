@@ -27,6 +27,9 @@ class SearchTypes extends Component
     private $teamTypeService;
     private $salesService;
 
+    public $search;
+    public $display = true;
+
     public function __construct () {
         $this->teamTypeHistoryService = new TeamTypeHistoryService (new TeamTypeHistoryRepository);
         $this->teamTypeService = new TeamTypeService (new TeamTypeRepository);
@@ -37,8 +40,6 @@ class SearchTypes extends Component
             new DetailService (new DetailRepository)
         );
     }
-
-    public $search;
 
     public function update () {
         

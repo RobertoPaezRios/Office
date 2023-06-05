@@ -350,9 +350,10 @@
     </div>
   </x-slot>
 
-  @if (session('status'))
-      <x-banner message="{{session('status')}}" style="{{session('style')}}"/>
-  @endif
+    @if (session('status'))
+        <x-banner message="{{session('status')}}" style="{{session('style')}}"/>
+    @endif
+
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-gray-50 overflow-hidden sm:rounded-lg">
@@ -417,11 +418,32 @@
                               {{$type->support}} %
                           </th>
                           <th scope="row" class="px-6 py-4" data-bs-toggle="modal" data-bs-target="#updateModal">
-                              <button class="hover:text-indigo-600">
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                                  </svg>                                  
-                              </button>
+                            @if (count($sales) > 0)  
+                                @if ($sales[$type->id]['sales'] > 0 || $sales[$type->id]['teams'] > 0)
+                                    <x-button class="hover:bg-gray-800" disabled>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                        </svg>                                        
+                                    </x-button>
+                                @else
+                                    <x-button class="bg-yellow-400 hover:bg-yellow-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                                        </svg>                                 
+                                    </x-button>
+                                @endif
+                            @endif
+                            <x-dialog-modal wire:model="display">
+                                <x-slot name="title">
+                                    Edit Team Type
+                                </x-slot>
+                                <x-slot name="content">
+                                    Prueba
+                                </x-slot>
+                                <x-slot name="footer">
+                                    Prueba
+                                </x-slot>
+                            </x-dialog-modal>
                           </th>
                           <th scope="row" class="px-6 py-4">
                             @if (count($sales) > 0)
