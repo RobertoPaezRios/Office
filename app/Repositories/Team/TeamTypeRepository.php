@@ -26,6 +26,23 @@ class TeamTypeRepository {
     return TeamType::find($id)->delete();
   }
 
+  public function updateType ($id, array $data) {
+    $type = TeamType::find($id);
+
+    if ($type != null) {
+      $type->name = $data['name'];
+      $type->central = $data['central'];
+      $type->sip = $data['sip'];
+      $type->marketing = $data['marketing'];
+      $type->support = $data['support'];
+      $type->save();
+      
+      return true;
+    }
+
+    return false;
+  }
+
   public function setType ($data) {
     return TeamType::create($data);
   }

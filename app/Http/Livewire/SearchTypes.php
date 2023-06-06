@@ -28,7 +28,6 @@ class SearchTypes extends Component
     private $salesService;
 
     public $search;
-    public $display = true;
 
     public function __construct () {
         $this->teamTypeHistoryService = new TeamTypeHistoryService (new TeamTypeHistoryRepository);

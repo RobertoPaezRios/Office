@@ -22,6 +22,10 @@ class TeamTypeService {
     return $this->teamTypeRepository->listVinculatedTeams ($typeId);
   }
 
+  public function updateType ($id, array $data) {
+    return $this->teamTypeRepository->updateType($id, $data);
+  }
+
   public function destroyType ($id) {
     return $this->teamTypeRepository->destroyType($id);
   }

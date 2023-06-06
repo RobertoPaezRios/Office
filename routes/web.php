@@ -8,6 +8,7 @@ use App\Http\Controllers\TeamTypes\TypesAdminController;
 use App\Http\Controllers\TeamTypes\AddTeamTypeController;
 use App\Http\Controllers\TeamTypes\DeleteTeamTypeHistory;
 use App\Http\Controllers\TeamTypes\UpdateTeamTypeHistoryController;
+use App\Http\Controllers\TeamTypes\UpdateTeamTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,8 +45,8 @@ Route::middleware([
     Route::get('/operation/{id}', [SaleController::class, 'display'])
         ->name('operation');
 
-    Route::get('/types-admin', [TypesAdminController::class, 'index'] 
-        )->name('types-admin');
+    Route::get('/types-admin', [TypesAdminController::class, 'index'])
+        ->name('types-admin');
 
     Route::get('/add-team-type', [AddTeamTypeController::class, 'create'])
         ->name('add-team-type');
@@ -58,4 +59,10 @@ Route::middleware([
 
     Route::post('/update-team-type-history', [UpdateTeamTypeHistoryController::class, 'update'])
         ->name('update-team-type-history');
+
+    Route::get('/update-team-type/{id}', [UpdateTeamTypeController::class, 'create'])
+        ->name('update-team-type');
+
+    Route::post('/update-team-type', [UpdateTeamTypeController::class, 'update'])
+        ->name('update.update-team-type');
 });

@@ -51,7 +51,7 @@ class AddTeamTypeController extends Controller
                 ->with('style', 'danger');
             }
         } else {       
-            return back()->with('status', 'All the parameters must be greater than 0%');
+            return back()->with('status', 'All the parameters must be greater than 0%')->with('style', 'danger');
         }
     }
 }
