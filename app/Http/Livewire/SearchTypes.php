@@ -28,6 +28,7 @@ class SearchTypes extends Component
     private $salesService;
 
     public $search;
+    public $deleteId = '';
 
     public function __construct () {
         $this->teamTypeHistoryService = new TeamTypeHistoryService (new TeamTypeHistoryRepository);
@@ -44,10 +45,14 @@ class SearchTypes extends Component
         
     }
 
-    public function destroy ($id) {
+    public function setDeleteId ($id) {
+        $this->deleteId = $id;
+    }
+
+    public function destroy () {
         //CHECK IF ANY TEAM IS LINKED WITH THIS TEAM TYPE
-        if (count($this->teamTypeHistoryService->listTeamTypeHistoricsByTypeId($id)->toArray()) == 0) {  
-            $res = $this->teamTypeService->destroyType($id);
+        if (count($this->teamTypeHistoryService->listTeamTypeHistoricsByTypeId($this->deleteId)->toArray()) == 0) {  
+            $res = $this->teamTypeService->destroyType($this->deleteId);
         } 
     }
 
