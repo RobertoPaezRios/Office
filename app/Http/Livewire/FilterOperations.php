@@ -25,6 +25,7 @@ class FilterOperations extends Component
     private $levelService;
     private $listerService;
     private $user;
+    private $time;
     public $sales;
     public $details;
     public $sellers;
@@ -60,10 +61,16 @@ class FilterOperations extends Component
 
         $this->user = Auth::user();
         $this->level = $this->levelService->getLevel($this->user)[0]->level;
+        $this->time = 12;
+    }
+
+    public function filter ($time) {
+        $this->time = $time;
+        $this->mount($this->time);
     }
 
     public function mount () {
-        $this->sales = $this->salesService->listMySales($this->user);
+        $this->sales = $this->salesService->listMySalesByTime ($this->time);
         foreach ($this->sales as $sale) {
             $this->collaboratorsAmount = 0;
             $this->details[$sale->id] = $this->detailService->getSaleDetail($sale);
@@ -93,7 +100,8 @@ class FilterOperations extends Component
             'details' => $this->details,
             'sellers' => $this->sellers,
             'listers' => $this->listers,
-            'income' => $this->income
+            'income' => $this->income,
+            'time' => $this->time
         ]);
     }
 }

@@ -37,6 +37,10 @@ class SalesService {
     return $this->saleRepository->listMySales($user);
   }
 
+  public function listMySalesByTime ($time) {
+    return $this->saleRepository->listMySalesByTime($time);
+  }
+
   public function getMySalesWithPaginate ($idUser, $itemsPerPage) {
     return $this->saleRepository->getMySalesWithPaginate($idUser, $itemsPerPage);
   }

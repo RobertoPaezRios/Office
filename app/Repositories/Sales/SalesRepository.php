@@ -3,6 +3,7 @@
 namespace App\Repositories\Sales;
 
 use App\Models\Sale;
+use Illuminate\Support\Carbon;
 
 class SalesRepository {
   public function getMySalesWithPaginate ($idUser, $itemsPerPage) {
@@ -11,6 +12,13 @@ class SalesRepository {
 
   public function listSalesByTypeId ($id) {
     return Sale::where('type_id', $id)->get();
+  }
+  
+  public function listMySalesByTime ($time) {
+    return Sale::whereBetween('created_at', [
+      Carbon::now()->subMonths($time)->format('Y-m-d'),
+      Carbon::now()->format('Y-m-d')
+    ])->get();
   }
 
   public function listMySales ($user) {
