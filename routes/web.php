@@ -68,4 +68,9 @@ Route::middleware([
 
     Route::post('/update-team-type', [UpdateTeamTypeController::class, 'update'])
         ->name('update.update-team-type');
+
+    Route::get('/partners-admin', function () {
+        return view('owners-group.owner-group');
+    })
+    ->name('partners-admin');
 });

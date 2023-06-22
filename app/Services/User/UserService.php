@@ -14,4 +14,8 @@ class UserService {
   public function getLicense ($userId) {
     return $this->userRepository->getLicense($userId);
   }
+
+  public function getUserById ($userId) {
+    return $this->userRepository->getUserById($userId);
+  }
 }
