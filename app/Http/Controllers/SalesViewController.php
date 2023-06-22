@@ -46,8 +46,12 @@ class SalesViewController extends Controller
 
     public function index () {
         $user = Auth::user();
+        
         if ($user->current_team_id == null) return view('dashboard');
+        
         $team = $this->teamService->getTeam($user->current_team_id);
+
+        if ($team->personal_team == 1) return redirect()->route('personal-page.operations');
 
         if ($this->teamService->isPersonal($team)) {
             if ($this->personalTeamService->display($user)['status'] == 'ok') {
@@ -157,7 +161,8 @@ class SalesViewController extends Controller
 
                         //THE SAME AGENT IS THE SELLER AND LISTER, INCOME * 2
                         if ($listers[$key]->id == $sellers[$key]->id) {
-                            $income[] = ($sale->amount / 100) * (($auxComm[$key] / 10000) * ($levels[$listers[$key]->id][0]->level / 100));
+                            //$income[] = ($sale->amount / 100) * (($auxComm[$key] / 10000) * ($levels[$listers[$key]->id][0]->level / 100));
+                            $income[] = ($sale->amount / 100) * ($auxComm[$key] / 10000);
                         } else {
                             $income[] = ($sale->amount / 100) * ($auxComm[$key] / 10000);
                         }

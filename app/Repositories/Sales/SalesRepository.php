@@ -13,6 +13,14 @@ class SalesRepository {
     return Sale::where('type_id', $id)->get();
   }
 
+  public function listMySales ($user) {
+    return Sale::where('lister_id', $user->id)->orwhere('seller_id', $user->id)->get();
+  }
+
+  public function listMySalesWithPaginate ($userId, $itemsPerPage) {
+    return Sale::where('lister_id', $userId)->orwhere('seller_id', $userId)->paginate($itemsPerPage);
+  }
+
   public function countSalesByHistoricsIds (array $ids) {
     return count(Sale::whereIn('team_type_history_id', $ids)->get()->toArray());
   } 

@@ -15,9 +15,15 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('operations') }}" :active="request()->routeIs('operations')">
-                        {{ __('Operations') }}
-                    </x-nav-link>
+                    @if (!Auth::user()->currentTeam->personal_team)
+                        <x-nav-link href="{{ route('operations') }}" :active="request()->routeIs('operations')">
+                            {{ __('Operations') }}
+                        </x-nav-link>
+                    @else 
+                        <x-nav-link href="{{ route('personal-page.operations') }}" :active="request()->routeIs('personal-page.operations')">
+                            {{ __('Operations') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link href="{{ route('types-admin') }}" :active="request()->routeIs('types-admin')">
                         {{ __('Types Admin') }}
                     </x-nav-link>

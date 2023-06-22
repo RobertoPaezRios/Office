@@ -45,6 +45,9 @@ Route::middleware([
     Route::get('/operation/{id}', [SaleController::class, 'display'])
         ->name('operation');
 
+    Route::get('/personal-page/operations', [App\Http\Controllers\PersonalPage\SalesController::class, 'index'])
+        ->name('personal-page.operations');
+
     Route::get('/types-admin', [TypesAdminController::class, 'index'])
         ->name('types-admin');
 

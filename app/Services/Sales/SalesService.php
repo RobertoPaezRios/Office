@@ -33,8 +33,16 @@ class SalesService {
     return $this->saleRepository->getMySales($user);
   }
 
+  public function listMySales(User $user) {
+    return $this->saleRepository->listMySales($user);
+  }
+
   public function getMySalesWithPaginate ($idUser, $itemsPerPage) {
     return $this->saleRepository->getMySalesWithPaginate($idUser, $itemsPerPage);
+  }
+
+  public function listMySalesWithPaginate ($userId, $itemsPerPage) {
+    return $this->saleRepository->listMySalesWithPaginate ($userId, $itemsPerPage);
   }
 
   public function listSalesByTypeId ($id) {
