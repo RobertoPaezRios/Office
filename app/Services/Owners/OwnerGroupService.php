@@ -17,11 +17,19 @@ class OwnerGroupService {
     $this->ownerService = $ownerService;
   }
   
+  public function getOwnerGroupByUserId ($userId) {
+    return $this->ownerGroupRepository->getOwnerGroupByUserId($userId);
+  }
+
   public function listMyMembers ($groupId) {
     return $this->ownerService->listMembersByGroupId ($groupId);
   }
 
-  public function getOwner ($groupId) {
-    return $this->ownerGroupRepository->getOwner($groupId);
+  public function getOwner ($userId) {
+    return $this->ownerGroupRepository->getOwner($userId);
+  }
+
+  public function createGroup ($userId, $name) {
+    return $this->ownerGroupRepository->createGroup($userId, $name);
   }
 }

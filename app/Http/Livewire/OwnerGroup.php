@@ -18,7 +18,8 @@ class OwnerGroup extends Component
     private $ownerService;
     private $userService;
     private $members;
-    private $status;
+    private $group;
+    private $user;
 
     public function __construct () {
         $this->ownerService = new OwnerService (new OwnerRepository);
@@ -27,13 +28,14 @@ class OwnerGroup extends Component
             $this->ownerService
         );
         $this->userService = new UserService (new UserRepository);
-        $this->status = [];
+        $this->user = Auth::user();
     }
 
     public function mount () {
-        $this->members [0] = $this->ownerGroupService->getOwner(Auth::user()->id);
+        $this->members [0] = $this->ownerGroupService->getOwner($this->user->id);
+        $this->group = $this->ownerGroupService->getOwnerGroupByUserId($this->user->id)[0];
 
-        foreach ($this->ownerGroupService->listMyMembers(1) as $member) {
+        foreach ($this->ownerGroupService->listMyMembers($this->group->id) as $member) {
             $this->members [] = $this->userService->getUserById($member['user_id']);
         }
     }   
@@ -41,8 +43,7 @@ class OwnerGroup extends Component
     public function render()
     {
         return view('livewire.owner-group', [
-            'members' => $this->members,
-            'status' => $this->status
+            'members' => $this->members
         ]);
     }
 }

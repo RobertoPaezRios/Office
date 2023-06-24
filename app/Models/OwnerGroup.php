@@ -12,8 +12,6 @@ class OwnerGroup extends Model
 {
     use HasFactory;
 
-    protected $table = 'owners_groups';
-
     protected $fillable = [
         'name',
         'user_id'

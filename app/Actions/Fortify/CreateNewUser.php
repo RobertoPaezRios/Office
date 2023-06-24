@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 
+use App\Services\Owners\OwnerGroupService;
+
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
+
+    private $ownerGroupService;
+
+    public function __construct (OwnerGroupService $ownerGroupService) {
+        $this->ownerGroupService = $ownerGroupService;
+    }
 
     /**
      * Create a newly registered user.
@@ -35,6 +43,7 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
             ]), function (User $user) {
                 $this->createTeam($user);
+                $this->createOwnerGroup($user);
             });
         });
     }
@@ -49,5 +58,13 @@ class CreateNewUser implements CreatesNewUsers
             'name' => explode(' ', $user->name, 2)[0]."'s Personal Page",
             'personal_team' => true
         ]));
+    }
+
+    /**
+     * Create a personal owners group team for the user
+     */
+
+    protected function createOwnerGroup (User $user): void {
+        $this->ownerGroupService->createGroup ($user->id, $user->name . "'s Partners Group");
     }
 }
