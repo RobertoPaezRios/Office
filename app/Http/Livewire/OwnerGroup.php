@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 use App\Services\Owners\OwnerGroupService;
 use App\Repositories\Owners\OwnerGroupRepository;
@@ -17,6 +18,7 @@ class OwnerGroup extends Component
     private $ownerService;
     private $userService;
     private $members;
+    private $status;
 
     public function __construct () {
         $this->ownerService = new OwnerService (new OwnerRepository);
@@ -25,9 +27,12 @@ class OwnerGroup extends Component
             $this->ownerService
         );
         $this->userService = new UserService (new UserRepository);
+        $this->status = [];
     }
 
     public function mount () {
+        $this->members [0] = $this->ownerGroupService->getOwner(Auth::user()->id);
+
         foreach ($this->ownerGroupService->listMyMembers(1) as $member) {
             $this->members [] = $this->userService->getUserById($member['user_id']);
         }
@@ -36,7 +41,8 @@ class OwnerGroup extends Component
     public function render()
     {
         return view('livewire.owner-group', [
-            'members' => $this->members
+            'members' => $this->members,
+            'status' => $this->status
         ]);
     }
 }

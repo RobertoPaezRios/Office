@@ -20,4 +20,8 @@ class OwnerGroupService {
   public function listMyMembers ($groupId) {
     return $this->ownerService->listMembersByGroupId ($groupId);
   }
+
+  public function getOwner ($groupId) {
+    return $this->ownerGroupRepository->getOwner($groupId);
+  }
 }
