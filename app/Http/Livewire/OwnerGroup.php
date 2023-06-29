@@ -18,32 +18,47 @@ class OwnerGroup extends Component
     private $ownerService;
     private $userService;
     private $members;
-    private $group;
+    private $groups;
     private $user;
+    private $owners;
 
     public function __construct () {
         $this->ownerService = new OwnerService (new OwnerRepository);
+        $this->userService = new UserService (new UserRepository);
         $this->ownerGroupService = new OwnerGroupService (
             new OwnerGroupRepository,
-            $this->ownerService
+            $this->ownerService,
+            $this->userService
         );
-        $this->userService = new UserService (new UserRepository);
         $this->user = Auth::user();
     }
 
     public function mount () {
+        //IF THE TEAM DON'T EXISTS, THEN CREATE
+        /*if (!count($this->ownerGroupService->listOwnerGroupByUserId($this->user->id)) > 0) {
+            $this->ownerGroupService->createGroup ($this->user->id, $this->user->name . "'s Partners Group");
+        }
+        
         $this->members [0] = $this->ownerGroupService->getOwner($this->user->id);
-        $this->group = $this->ownerGroupService->getOwnerGroupByUserId($this->user->id)[0];
-
+        $this->group = $this->ownerGroupService->listOwnerGroupByUserId($this->user->id)[0];
+        
         foreach ($this->ownerGroupService->listMyMembers($this->group->id) as $member) {
             $this->members [] = $this->userService->getUserById($member['user_id']);
+        }*/
+
+        $this->groups = $this->ownerGroupService->listOwnerGroupByUserId($this->user->id);
+
+        foreach ($this->groups as $group) {
+            $this->owners [$group->id] = $this->ownerGroupService->getGroupOwner ($group->id);
         }
     }   
 
     public function render()
     {
         return view('livewire.owner-group', [
-            'members' => $this->members
+            'members' => $this->members,
+            'groups' => $this->groups,
+            'owners' => $this->owners
         ]);
     }
 }

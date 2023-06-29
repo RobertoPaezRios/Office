@@ -9,6 +9,8 @@ use App\Http\Controllers\TeamTypes\AddTeamTypeController;
 use App\Http\Controllers\TeamTypes\DeleteTeamTypeHistory;
 use App\Http\Controllers\TeamTypes\UpdateTeamTypeHistoryController;
 use App\Http\Controllers\TeamTypes\UpdateTeamTypeController;
+use App\Http\Controllers\OwnerGroups\OwnerGroupController;
+use App\Http\Controllers\OwnerGroups\CreateGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,8 +71,9 @@ Route::middleware([
     Route::post('/update-team-type', [UpdateTeamTypeController::class, 'update'])
         ->name('update.update-team-type');
 
-    Route::get('/partners-admin', function () {
-        return view('owners-group.owner-group');
-    })
-    ->name('partners-admin');
+
+    
+    Route::get('/partners-admin', [OwnerGroupController::class, 'create'])->name('partners-admin');
+
+    Route::get('/create-group', [CreateGroupController::class, 'create'])->name('create-group');
 });

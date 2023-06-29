@@ -9,7 +9,11 @@ class OwnerGroupRepository {
     return OwnerGroup::where('user_id', $userId)->get()[0]->owner; 
   }
 
-  public function getOwnerGroupByUserId ($userId) {
+  public function getGroup ($id) {
+    return OwnerGroup::find($id);
+  }
+
+  public function listOwnerGroupByUserId ($userId) {
     return OwnerGroup::where('user_id', $userId)->get();
   }
 
