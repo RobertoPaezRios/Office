@@ -34,18 +34,6 @@ class OwnerGroup extends Component
     }
 
     public function mount () {
-        //IF THE TEAM DON'T EXISTS, THEN CREATE
-        /*if (!count($this->ownerGroupService->listOwnerGroupByUserId($this->user->id)) > 0) {
-            $this->ownerGroupService->createGroup ($this->user->id, $this->user->name . "'s Partners Group");
-        }
-        
-        $this->members [0] = $this->ownerGroupService->getOwner($this->user->id);
-        $this->group = $this->ownerGroupService->listOwnerGroupByUserId($this->user->id)[0];
-        
-        foreach ($this->ownerGroupService->listMyMembers($this->group->id) as $member) {
-            $this->members [] = $this->userService->getUserById($member['user_id']);
-        }*/
-
         $this->groups = $this->ownerGroupService->listOwnerGroupByUserId($this->user->id);
 
         foreach ($this->groups as $group) {

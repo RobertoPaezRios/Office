@@ -28,9 +28,11 @@ class OwnerGroupController extends Controller
         $this->user = $this->userService->getUserById(Auth::user()->id);
         $this->team = $this->teamService->getTeam($this->user->current_team_id);
 
-        if ($this->teamService->isPersonal ($this->team))
-            return view('owners-group.owner-group');
-
+        if ($this->team) {
+            if ($this->teamService->isPersonal ($this->team))
+                return view('owners-group.owner-group');
+        } 
+        
         return redirect()->route('dashboard');
     }
 }

@@ -25,6 +25,16 @@ class OwnerGroupService {
     return $this->ownerGroupRepository->listOwnerGroupByUserId($userId);
   }
 
+  public function checkIfNameIsAvailable ($name, $userId) {
+    $groups = $this->ownerGroupRepository->listOwnerGroupByUserId($userId);
+
+    foreach ($groups as $group) {
+      if ($group->name == $name) return false; 
+    }
+
+    return true;
+  }
+
   public function getGroupOwner ($groupId) {
     $id = $this->ownerGroupRepository->getGroup($groupId)->user_id;
     return $this->userService->getUserById($id);

@@ -32,8 +32,12 @@ class TeamService {
   }
 
   public function isPersonal (Team $team) {
-    if ($team->personal_team == 1) return true;
+    if ($team) {
+      if ($team->personal_team == 1) return true;
+      
+      return false;
+    }
 
-    return false;
+    return abort(419);
   }
 }

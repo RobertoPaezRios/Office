@@ -9,6 +9,10 @@
       </h2>
     </div>
   </x-slot>
+  
+  @if (session('status'))
+    <x-banner message="{{session('status')}}" style="{{session('style')}}" />
+  @endif
 
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -17,4 +21,8 @@
       </div>
     </div>
   </div>
+
+  <!-- FLOWBITE JS RESOURCE -->
+  <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 </x-app-layout>
