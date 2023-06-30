@@ -19,6 +19,10 @@ class TeamService {
     $this->teamTypeHistoryRepository = $teamTypeHistoryRepository;
   }
 
+  public function getPersonalTeam ($userId) {
+    return $this->teamRepository->getPersonalTeam($userId);
+  }
+
   public function getTeamActualType (Team $team) {
     return $this->teamTypeHistoryRepository->getTeamActualType($team);
   }

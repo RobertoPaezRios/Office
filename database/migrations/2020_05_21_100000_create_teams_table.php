@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
+            $table->unsignedBigInteger('group_id')->nullable();
             $table->string('name');
             $table->boolean('personal_team');
             $table->timestamps();
+
+            $table->foreign('group_id')->references('id')->on('owner_groups');
         });
     }
 

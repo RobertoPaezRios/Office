@@ -11,15 +11,25 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 
 use App\Services\Owners\OwnerGroupService;
+use App\Services\Levels\LevelService;
+use App\Services\Team\TeamService;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
     private $ownerGroupService;
+    private $levelService;
+    private $teamService;
 
-    public function __construct (OwnerGroupService $ownerGroupService) {
+    public function __construct (
+        OwnerGroupService $ownerGroupService,
+        LevelService $levelService,
+        TeamService $teamService
+    ) {
         $this->ownerGroupService = $ownerGroupService;
+        $this->levelService = $levelService;
+        $this->teamService = $teamService;
     }
 
     /**
@@ -43,8 +53,8 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
             ]), function (User $user) {
                 $this->createTeam($user);
-                /*if ($user->status == 2)
-                    $this->createOwnerGroup($user);*/
+                $team = $this->teamService->getPersonalTeam($user->id);
+                $this->createLevel($user, 40, $team);
             });
         });
     }
@@ -62,10 +72,10 @@ class CreateNewUser implements CreatesNewUsers
     }
 
     /**
-     * Create a personal owners group team for the user
+     * Create a level for the user
      */
 
-    protected function createOwnerGroup (User $user): void {
-        $this->ownerGroupService->createGroup ($user->id, $user->name . "'s Partners Group");
+    protected function createLevel (User $user, int $level, Team $team): void {
+        $this->levelService->createLevel ($user, $level, $team);
     }
 }

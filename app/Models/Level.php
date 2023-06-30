@@ -14,12 +14,9 @@ class Level extends Model
     use HasFactory;
 
     protected $fillable = [
-        'level'
-    ];
-
-    protected $hidden = [
+        'level',
         'user_id',
-        'team_id'
+        'team_id',
     ];
 
     /**
