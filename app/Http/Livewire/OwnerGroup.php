@@ -79,7 +79,7 @@ class OwnerGroup extends Component
                     $this->sales [$group->id] += count($this->salesService->listSalesByTeamId ($team->id));
                     $this->employees [$group->id] = $this->teamService->listMembersByTeamId($team->id);
                 }
-            } else $this->sales [$group->id] = [];
+            } else $this->sales [$group->id] = 0;
         }
     }   
 
