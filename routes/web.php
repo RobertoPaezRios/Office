@@ -71,12 +71,12 @@ Route::middleware([
     Route::post('/update-team-type', [UpdateTeamTypeController::class, 'update'])
         ->name('update.update-team-type');
     
-    Route::get('/partners-admin', [OwnerGroupController::class, 'create'])
+    Route::get('/communities-admin', [OwnerGroupController::class, 'create'])
         ->name('partners-admin');
 
-    Route::get('/create-group', [CreateGroupController::class, 'create'])
+    Route::get('/create-community', [CreateGroupController::class, 'create'])
         ->name('create-group');
     
-    Route::post('/create-group', [CreateGroupController::class, 'store'])
+    Route::post('/create-community', [CreateGroupController::class, 'store'])
         ->name('create-group.store');
 });

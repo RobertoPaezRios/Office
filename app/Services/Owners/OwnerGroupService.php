@@ -5,24 +5,32 @@ namespace App\Services\Owners;
 use App\Repositories\Owners\OwnerGroupRepository;
 use App\Services\Owners\OwnerService;
 use App\Services\User\UserService;
+use App\Services\Team\TeamService;
 
 class OwnerGroupService {
   private $ownerGroupRepository;
   private $ownerService;
   private $userService;
+  private $teamService;
 
   public function __construct (
     OwnerGroupRepository $ownerGroupRepository,
     OwnerService $ownerService,
-    UserService $userService
+    UserService $userService,
+    TeamService $teamService
   ) {
     $this->ownerGroupRepository = $ownerGroupRepository;
     $this->ownerService = $ownerService;
     $this->userService = $userService;
+    $this->teamService = $teamService;
   }
   
   public function listOwnerGroupByUserId ($userId) {
     return $this->ownerGroupRepository->listOwnerGroupByUserId($userId);
+  }
+
+  public function listTeamsByGroupId ($groupId) {
+    return $this->teamService->listTeamsByGroupId($groupId);
   }
 
   public function checkIfNameIsAvailable ($name, $userId) {
@@ -33,6 +41,10 @@ class OwnerGroupService {
     }
 
     return true;
+  }
+
+  public function getOwnerByGroupId ($groupId) {
+    return $this->ownerGroupRepository->getOwnerByGroupId($groupId);
   }
 
   public function getGroupOwner ($groupId) {

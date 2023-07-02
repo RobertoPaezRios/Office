@@ -13,6 +13,10 @@ class OwnerGroupRepository {
     return OwnerGroup::find($id);
   }
 
+  public function getOwnerByGroupId ($groupId) {
+    return OwnerGroup::find($groupId)->owner;
+  }
+
   public function listOwnerGroupByUserId ($userId) {
     return OwnerGroup::where('user_id', $userId)->get();
   }

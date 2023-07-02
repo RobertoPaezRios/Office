@@ -23,6 +23,14 @@ class TeamService {
     return $this->teamRepository->getPersonalTeam($userId);
   }
 
+  public function listMembersByTeamId ($teamId) {
+    return $this->teamRepository->listMembersByTeamId($teamId);
+  }
+
+  public function listTeamsByGroupId($groupId) {
+    return $this->teamRepository->listTeamsByGroupId($groupId);
+  }
+
   public function getTeamActualType (Team $team) {
     return $this->teamTypeHistoryRepository->getTeamActualType($team);
   }

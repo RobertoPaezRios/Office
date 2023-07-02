@@ -13,6 +13,15 @@ class TeamRepository {
     return $team->personal_team;
   }
 
+  public function listMembersByTeamId ($teamId) {
+    $team = Team::find($teamId);
+    return $team->users;
+  }
+
+  public function listTeamsByGroupId($groupId) {
+    return Team::where('group_id', $groupId)->get();
+  }
+
   public function getPersonalTeam ($userId) {
     return Team::where('user_id', $userId)->where('personal_team', 1)->first();
   }

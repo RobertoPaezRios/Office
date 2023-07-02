@@ -11,19 +11,23 @@ use Laravel\Jetstream\Events\AddingTeam;
 use Laravel\Jetstream\Jetstream;
 use App\Services\Team\TeamTypeHistoryService;
 use App\Services\Team\TeamTypeService;
+use App\Services\Owners\OwnerGroupService;
 use Illuminate\Support\Facades\Auth;
 
 class CreateTeam implements CreatesTeams
 {
     private $teamTypeHistoryService;
     private $teamTypeService;
+    private $ownerGroupService;
 
     public function __construct (
         TeamTypeHistoryService $teamTypeHistoryService,
-        TeamTypeService $teamTypeService
+        TeamTypeService $teamTypeService,
+        OwnerGroupService $ownerGroupService
     ) {
         $this->teamTypeHistoryService = $teamTypeHistoryService;
-        $this->teamTypeService = $teamTypeService;    
+        $this->teamTypeService = $teamTypeService;
+        $this->ownerGroupService = $ownerGroupService;    
     }
 
     /**
@@ -38,18 +42,32 @@ class CreateTeam implements CreatesTeams
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],     
-            'type' => ['required'] 
+            'type' => ['required', 'numeric'],
+            'community' => ['required', 'numeric'] 
         ])->validateWithBag('createTeam');
 
         if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {
-            return redirect()->route('dashboard')->with('status', 'The team type selected is not yours!')->with('style', 'danger');
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', 'The team type selected is not yours!')
+            ->with('style', 'danger');
         }
+
+        if (Auth::user()->id != $this->ownerGroupService->getOwnerByGroupId($input['community'])->id) {
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', 'The community selected is not yours')
+            ->with('style', 'danger');
+        } 
 
         AddingTeam::dispatch($user);
 
         $user->switchTeam($team = $user->ownedTeams()->create([
             'name' => $input['name'],
             'personal_team' => false,
+            'group_id' => $input['community']
         ]));
 
         //GUARDAR REGISTRO DE LA CREACION DEL EQUIPO

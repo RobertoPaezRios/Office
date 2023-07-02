@@ -33,6 +33,10 @@ class SalesService {
     return $this->saleRepository->getMySales($user);
   }
 
+  public function listSalesByTeamId($teamId) {
+    return $this->saleRepository->listSalesByTeamId($teamId);
+  }
+
   public function listMySales(User $user) {
     return $this->saleRepository->listMySales($user);
   }

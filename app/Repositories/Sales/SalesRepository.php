@@ -13,6 +13,10 @@ class SalesRepository {
   public function listSalesByTypeId ($id) {
     return Sale::where('type_id', $id)->get();
   }
+
+  public function listSalesByTeamId($teamId) {
+    return Sale::where('team_id', $teamId)->get();
+  }
   
   public function listMySalesByTime ($time) {
     return Sale::whereBetween('created_at', [

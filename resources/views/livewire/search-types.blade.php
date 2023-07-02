@@ -336,17 +336,12 @@
 
   <x-slot name="header">
     <div class="flex justify-between">
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto">
         {{ __('Types Admin') }}
       </h2>
-      <a href="{{route('add-team-type')}}">
-        <x-button class="bg-green-600 hover:bg-green-700">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>                  
-          Add new Type
-        </x-button>
-      </a>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight p-2" style="border-radius: 5px; border: 2px solid orange">
+        PERSONAL PAGE
+      </h2>
     </div>
   </x-slot>
   <!-- FALTA PONER TEMPORIZADOR AL BANNER PARA QUE SE AUTOELIMINA Y NO INTERFIERA CON EL MODAL -->
@@ -370,7 +365,7 @@
         <div class="p-6">   
           <div class="relative overflow-x-auto bg-white shadow-md p-4 sm:rounded-lg">
             <!-- SEARCH FORM -->
-            <div class="p-4 bg-white">
+            <div class="p-4 bg-white flex justify-between">
               <label for="table-search" class="sr-only">Search</label>
               <div class="relative mt-1">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -378,6 +373,15 @@
                 </div>
                 <input type="text" wire:model="search" id="table-search" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for Types">
               </div>
+              <!-- ADD TYPE BUTTON -->
+              <a href="{{route('add-team-type')}}">
+                <x-button class="bg-green-600 hover:bg-green-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>                  
+                    Add new Type
+                </x-button>
+              </a>
             </div>
 
             <table class="w-full text-sm text-left text-gray-500">
