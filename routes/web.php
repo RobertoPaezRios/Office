@@ -11,6 +11,7 @@ use App\Http\Controllers\TeamTypes\UpdateTeamTypeHistoryController;
 use App\Http\Controllers\TeamTypes\UpdateTeamTypeController;
 use App\Http\Controllers\OwnerGroups\OwnerGroupController;
 use App\Http\Controllers\OwnerGroups\CreateGroupController;
+use App\Http\Controllers\OwnerGroups\UpdateGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +80,10 @@ Route::middleware([
     
     Route::post('/create-community', [CreateGroupController::class, 'store'])
         ->name('create-group.store');
+
+    Route::get('/update-community/{id}', [UpdateGroupController::class, 'create'])
+        ->name('update-community');
+    
+    Route::post('/update-community/{id}', [UpdateGroupController::class, 'update'])
+        ->name('update-community.update');
 });

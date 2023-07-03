@@ -12,6 +12,22 @@ class OwnerGroupRepository {
   public function getGroup ($id) {
     return OwnerGroup::find($id);
   }
+  
+  public function getColorByGroupId ($groupId) {
+    return OwnerGroup::find($groupId)->color;
+  }
+
+  public function setColor ($color, $groupId) {
+    $group = OwnerGroup::find($groupId);
+
+    if ($group) {
+      $group->color = $color;
+      $group->save();
+      return true;
+    } 
+    
+    return false;
+  }
 
   public function getOwnerByGroupId ($groupId) {
     return OwnerGroup::find($groupId)->owner;

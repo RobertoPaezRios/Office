@@ -14,14 +14,6 @@ use App\Repositories\User\UserRepository;
 use App\Services\Team\TeamService;
 use App\Repositories\Team\TeamRepository;
 use App\Repositories\Team\TeamTypeHistoryRepository;
-use App\Repositories\Sales\SalesRepository;
-use App\Services\Sales\ListerService;
-use App\Repositories\Sales\ListerRepository;
-use App\Services\Sales\SellerService;
-use App\Repositories\Sales\SellerRepository;
-use App\Services\Sales\DetailService;
-use App\Repositories\Sales\DetailRepository;
-use App\Services\Sales\SalesService;
 
 class OwnerGroup extends Component
 {   
@@ -29,10 +21,6 @@ class OwnerGroup extends Component
     private $ownerService;
     private $userService;
     private $teamService;
-    private $salesService;
-    private $listerService;
-    private $sellerService;
-    private $detailService;
     private $members;
     private $groups;
     private $user;
@@ -40,6 +28,7 @@ class OwnerGroup extends Component
     private $teams;
     private $sales;
     private $employees;
+    private $colors;
 
     public function __construct () {
         $this->ownerService = new OwnerService (new OwnerRepository);
@@ -47,15 +36,6 @@ class OwnerGroup extends Component
         $this->teamService = new TeamService (
             new TeamRepository,
             new TeamTypeHistoryRepository
-        );
-        $this->listerService = new ListerService (new ListerRepository);
-        $this->sellerService = new SellerService (new SellerRepository);
-        $this->detailService = new DetailService (new DetailRepository);
-        $this->salesService = new SalesService (
-            new SalesRepository,
-            $this->listerService,
-            $this->sellerService,
-            $this->detailService, 
         );
         $this->ownerGroupService = new OwnerGroupService (
             new OwnerGroupRepository,
@@ -72,26 +52,27 @@ class OwnerGroup extends Component
         foreach ($this->groups as $group) {
             $this->owners [$group->id] = $this->ownerGroupService->getGroupOwner ($group->id);
             $this->teams [$group->id] = $this->ownerGroupService->listTeamsByGroupId ($group->id);
-            
+            $this->colors [$group->id] = $this->ownerGroupService->getColorByGroupId ($group->id);
+
             if (count($this->teams[$group->id]) > 0) {
-                $this->sales[$group->id] = 0;
                 foreach ($this->teams[$group->id] as $team) {
-                    $this->sales [$group->id] += count($this->salesService->listSalesByTeamId ($team->id));
-                    $this->employees [$group->id] = $this->teamService->listMembersByTeamId($team->id);
+                    $this->employees [$group->id] = count($this->teamService->listMembersByTeamId($team->id));
                 }
-            } else $this->sales [$group->id] = 0;
+            } else $this->employees [$group->id] = 0;
         }
     }   
 
     public function render()
     {
+        $this->mount();
+
         return view('livewire.owner-group', [
             'members' => $this->members,
             'groups' => $this->groups,
             'owners' => $this->owners,
             'teams' => $this->teams,
-            'sales' => $this->sales,
-            'employees' => $this->employees
+            'employees' => $this->employees,
+            'colors' => $this->colors
         ]);
     }
 }

@@ -25,6 +25,14 @@ class OwnerGroupService {
     $this->teamService = $teamService;
   }
   
+  public function setColor ($color, $groupId) {
+    return $this->ownerGroupRepository->setColor($color, $groupId);
+  }
+
+  public function getColorByGroupId ($groupId) {
+    return $this->ownerGroupRepository->getColorByGroupId($groupId);
+  }
+
   public function listOwnerGroupByUserId ($userId) {
     return $this->ownerGroupRepository->listOwnerGroupByUserId($userId);
   }
@@ -41,6 +49,10 @@ class OwnerGroupService {
     }
 
     return true;
+  }
+
+  public function getGroup ($id) {
+    return $this->ownerGroupRepository->getGroup($id);
   }
 
   public function getOwnerByGroupId ($groupId) {
