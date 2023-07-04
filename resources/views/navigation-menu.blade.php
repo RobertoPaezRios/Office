@@ -1,4 +1,35 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    @php 
+
+    $communities = \App\Models\OwnerGroup::where('user_id', Auth::user()->id)->get();
+    $links = \App\Models\Owner::where('user_id', Auth::user()->id)->get();
+
+    $teams[0] = \App\Models\Team::where('user_id', Auth::user()->id)->where('personal_team', 1)->get();
+
+    if (count($links) > 0) {
+        foreach ($links as $link) {
+            $groups[] = \App\Models\OwnerGroup::where('id', $link->group_id)->get();
+        }
+    }
+
+    if (count($communities) > 0) {
+        foreach ($communities as $community) {
+            $teams [$community->id] = \App\Models\Team::where('group_id', $community->id)->get();
+        }
+    }
+
+    if (count($groups) > 0) {
+        foreach ($groups[0] as $group) {
+            $teams [$group->id] = \App\Models\Team::where('group_id', $group->id)->get();
+        } 
+    }
+
+    foreach ($teams as $key => $communities) {
+        foreach ($communities as $team) {
+        }
+    }
+    @endphp
+    
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -69,15 +100,17 @@
                                     @endcan
 
                                     <!-- Team Switcher -->
-                                    @if (Auth::user()->allTeams()->count() > 1)
+                                    @if (Auth::user()->allTeams()->count() > 0)
                                         <div class="border-t border-gray-200"></div>
 
                                         <div class="block px-4 py-2 text-xs text-gray-400">
                                             {{ __('Switch Teams') }}
                                         </div>
-
-                                        @foreach (Auth::user()->allTeams() as $team)
-                                            <x-switchable-team :team="$team" />
+                                            
+                                        @foreach ($teams as $communities) 
+                                            @foreach ($communities as $team) 
+                                                <x-switchable-team :team="$team" />
+                                            @endforeach
                                         @endforeach
                                     @endif
                                 </div>

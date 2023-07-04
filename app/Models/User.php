@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -17,6 +18,7 @@ use App\Models\Sale;
 use App\Models\Team;
 use App\Models\Membership;
 use App\Models\Level;
+use App\Models\OwnerGroup;
 
 class User extends Authenticatable
 {
@@ -77,6 +79,16 @@ class User extends Authenticatable
     public function level(): HasOne
     {
         return $this->hasOne(Level::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the teams for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teams(): HasMany
+    {
+        return $this->hasMany(Team::class, 'user_id', 'id');
     }
 }
 

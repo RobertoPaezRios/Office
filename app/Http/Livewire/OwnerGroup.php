@@ -29,6 +29,7 @@ class OwnerGroup extends Component
     private $sales;
     private $employees;
     private $colors;
+    private $links;
 
     public function __construct () {
         $this->ownerService = new OwnerService (new OwnerRepository);
@@ -47,9 +48,14 @@ class OwnerGroup extends Component
     }
 
     public function mount () {
-        $this->groups = $this->ownerGroupService->listOwnerGroupByUserId($this->user->id);
+        $groups = $this->ownerGroupService->listOwnerGroupByUserId($this->user->id);
+        $links = $this->ownerService->listGroupsByMemberId($this->user->id);
+        
+        foreach ($links as $link) {
+            $this->links[$link->group_id] = $this->ownerGroupService->getGroup($link->group_id);
+        }
 
-        foreach ($this->groups as $group) {
+        foreach ($groups as $group) {
             $this->owners [$group->id] = $this->ownerGroupService->getGroupOwner ($group->id);
             $this->teams [$group->id] = $this->ownerGroupService->listTeamsByGroupId ($group->id);
             $this->colors [$group->id] = $this->ownerGroupService->getColorByGroupId ($group->id);
@@ -59,6 +65,25 @@ class OwnerGroup extends Component
                     $this->employees [$group->id] = count($this->teamService->listMembersByTeamId($team->id));
                 }
             } else $this->employees [$group->id] = 0;
+        }
+
+        foreach ($groups as $group) {
+            $this->groups [$group->id] = $group;
+        }
+
+        if ($this->links) {
+            foreach ($this->links as $link) {
+                $this->groups [$link->id] = $link;
+                $this->colors [$link->id] = $link->color;
+                $this->owners [$link->id] = $link->owner;
+                $this->teams [$link->id] = $this->ownerGroupService->listTeamsByGroupId ($link->id);
+                
+                if (count($this->teams[$link->id]) > 0) {
+                    foreach ($this->teams[$link->id] as $team) {
+                        $this->employees [$link->id] = count($this->teamService->listMembersByTeamId($team->id));
+                    }
+                } else $this->employees [$link->id] = 0;            
+            }
         }
     }   
 

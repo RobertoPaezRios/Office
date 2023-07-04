@@ -9,7 +9,7 @@
 
     <x-slot name="form">
         
-        <div class="col-span-6">
+        {{--<div class="col-span-6">
             <x-label class="mt-2" value="{{ __('Team Owner') }}" />
 
             <div class="flex items-center mt-2">
@@ -20,7 +20,7 @@
                     <div class="text-gray-700 text-sm">{{ $this->user->email }}</div>
                 </div>
             </div>
-        </div>
+        </div>--}}
 
         <div class="col-span-6 sm:col-span-4">  
             @php 
@@ -28,6 +28,11 @@
             $types = \App\Models\TeamType::where('user_id', $user->id)->get(); 
 
             $communities = \App\Models\OwnerGroup::where('user_id', $user->id)->get();
+            $links = \App\Models\Owner::where('user_id', $user->id)->get();
+            
+            foreach ($links as $link) {
+                $groups [] = \App\Models\OwnerGroup::where('id', $link->group_id)->get();
+            }
             @endphp
 
             <x-label for="community" value="{{__('Team Community')}}"/>
@@ -36,6 +41,11 @@
                 @foreach ($communities as $community)
                     <option value="{{$community->id}}">{{$community->name}}</option>
                 @endforeach
+                @if (count($links) > 0)
+                    @foreach ($groups[0] as $group)
+                        <option value="{{$group->id}}">{{$group->name}}</option>
+                    @endforeach
+                @endif
             </select>
             <x-input-error for="community" class="mt-2 mb-2" />
 

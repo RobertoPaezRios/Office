@@ -143,10 +143,10 @@
                                         <button class="ml-2 text-sm text-gray-400 underline" wire:click="manageRole('{{ $user->id }}')">
                                             {{ Laravel\Jetstream\Jetstream::findRole($user->membership->role)->name }}
                                         </button>
-                                    @elseif (Laravel\Jetstream\Jetstream::hasRoles())
+                                    {{--@elseif (Laravel\Jetstream\Jetstream::hasRoles())
                                         <div class="ml-2 text-sm text-gray-400">
                                             {{ Laravel\Jetstream\Jetstream::findRole($user->membership->role)->name }}
-                                        </div>
+                                        </div>--}}
                                     @endif
 
                                     <!-- Leave Team -->

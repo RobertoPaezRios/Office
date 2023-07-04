@@ -65,7 +65,7 @@
         </div>
         <hr class="mt-4">
         <div class="w-full mt-4">
-            @if (count($groups) > 0)
+            @if ($groups)
                 <div class="flex flex-wrap items-center gap-4">
                     @foreach ($groups as $group) 
                         <div class="w-64 h-72 rounded-lg shadow-xl border hover:opacity-75 transition duration-300 hover:cursor-pointer">

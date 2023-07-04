@@ -12,6 +12,7 @@ use Laravel\Jetstream\Jetstream;
 use App\Services\Team\TeamTypeHistoryService;
 use App\Services\Team\TeamTypeService;
 use App\Services\Owners\OwnerGroupService;
+use App\Services\Owners\OwnerService;
 use Illuminate\Support\Facades\Auth;
 
 class CreateTeam implements CreatesTeams
@@ -19,15 +20,18 @@ class CreateTeam implements CreatesTeams
     private $teamTypeHistoryService;
     private $teamTypeService;
     private $ownerGroupService;
+    private $ownerService;
 
     public function __construct (
         TeamTypeHistoryService $teamTypeHistoryService,
         TeamTypeService $teamTypeService,
-        OwnerGroupService $ownerGroupService
+        OwnerGroupService $ownerGroupService,
+        OwnerService $ownerService
     ) {
         $this->teamTypeHistoryService = $teamTypeHistoryService;
         $this->teamTypeService = $teamTypeService;
         $this->ownerGroupService = $ownerGroupService;    
+        $this->ownerService = $ownerService;
     }
 
     /**
@@ -54,7 +58,7 @@ class CreateTeam implements CreatesTeams
             ->with('style', 'danger');
         }
 
-        if (Auth::user()->id != $this->ownerGroupService->getOwnerByGroupId($input['community'])->id) {
+        if (Auth::user()->id != $this->ownerGroupService->getOwnerByGroupId($input['community'])->id && count($this->ownerService->belongsTo(Auth::user()->id, $input['community'])) == 0) {
             return 
             redirect()
             ->route('dashboard')
@@ -62,9 +66,11 @@ class CreateTeam implements CreatesTeams
             ->with('style', 'danger');
         } 
 
-        AddingTeam::dispatch($user);
+        $communityOwner = User::find($this->ownerGroupService->getOwnerByGroupId($input['community']));
 
-        $user->switchTeam($team = $user->ownedTeams()->create([
+        AddingTeam::dispatch($communityOwner[0]);
+
+        $user->switchTeam($team = $communityOwner[0]->ownedTeams()->create([
             'name' => $input['name'],
             'personal_team' => false,
             'group_id' => $input['community']

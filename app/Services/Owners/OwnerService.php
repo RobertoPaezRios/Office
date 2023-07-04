@@ -11,6 +11,14 @@ class OwnerService {
     $this->ownerRepository = $ownerRepository;
   }
 
+  public function listGroupsByMemberId ($memberId) {
+    return $this->ownerRepository->listGroupsByMemberId ($memberId);
+  }
+
+  public function belongsTo ($userId, $groupId) {
+    return $this->ownerRepository->belongsTo($userId, $groupId);
+  }
+
   public function getMyGroup ($userId) {
     return $this->ownerRepository->getMyGroup ($userId);
   }
