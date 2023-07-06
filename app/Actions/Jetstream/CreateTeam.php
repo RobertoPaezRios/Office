@@ -47,7 +47,7 @@ class CreateTeam implements CreatesTeams
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],     
             'type' => ['required', 'numeric'],
-            'community' => ['required', 'numeric'] 
+            'community' => ['required', 'numeric', 'min:1'] 
         ])->validateWithBag('createTeam');
 
         if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {

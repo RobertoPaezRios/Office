@@ -26,6 +26,10 @@ class TeamTypeService {
     return $this->teamTypeRepository->updateType($id, $data);
   }
 
+  public function listTypesByGroupId($groupId) {
+    return $this->teamTypeRepository->listTypesByGroupId($groupId);
+  }
+
   public function destroyType ($id) {
     return $this->teamTypeRepository->destroyType($id);
   }

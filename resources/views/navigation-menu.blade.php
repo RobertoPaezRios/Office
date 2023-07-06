@@ -11,21 +11,23 @@
             $groups[] = \App\Models\OwnerGroup::where('id', $link->group_id)->get();
         }
     }
-
+    
     if (count($communities) > 0) {
         foreach ($communities as $community) {
             $teams [$community->id] = \App\Models\Team::where('group_id', $community->id)->get();
         }
     }
-
-    if (count($groups) > 0) {
+    
+    if (isset($groups) && count($groups) > 0) {
         foreach ($groups[0] as $group) {
             $teams [$group->id] = \App\Models\Team::where('group_id', $group->id)->get();
         } 
     }
 
-    foreach ($teams as $key => $communities) {
-        foreach ($communities as $team) {
+    if (count($teams) > 0 && count($communities) > 0) {   
+        foreach ($teams as $key => $communities) {
+            foreach ($communities as $team) {
+            }
         }
     }
     @endphp

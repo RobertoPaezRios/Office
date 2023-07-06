@@ -47,6 +47,10 @@ class TeamTypeRepository {
     return TeamType::create($data);
   }
 
+  public function listTypesByGroupId($groupId) {
+    return TeamType::where('group_id', $groupId)->get();
+  }
+
   public function getType ($id) {
     return TeamType::find($id);
   }

@@ -18,7 +18,8 @@ class TeamType extends Model
         'marketing',
         'support',
         'central',
-        'user_id'
+        'user_id',
+        'group_id'
     ];
 
     /**

@@ -384,7 +384,7 @@
               </a>
             </div>
 
-            <table class="w-full text-sm text-left text-gray-500">
+            <table class="w-full text-sm text-gray-500">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                   <tr>
                       <th scope="col" class="px-6 py-3">
@@ -403,6 +403,9 @@
                           Support
                       </th>
                       <th scope="col" class="px-6 py-3">
+                          Community
+                      </th>
+                      <th scope="col" class="px-6 py-3">
                           Edit
                       </th>
                       <th scope="col" class="px-6 py-3">
@@ -414,8 +417,9 @@
                   </tr>
               </thead>
               <tbody>
-                  @foreach ($types as $key => $type)
-                      <tr class="bg-white border-b hover:bg-gray-50">
+                  @foreach ($types as $key => $community)
+                    @foreach ($community as $type) 
+                      <tr class="bg-white border-b hover:bg-gray-50 text-center">
                           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                               {{ucfirst($type->name)}}
                           </th>
@@ -430,6 +434,11 @@
                           </th>
                           <th scope="row" class="px-6 py-4">
                               {{$type->support}} %
+                          </th>
+                          <th scope="row" class="px-6 py-4">
+                              <div class="rounded-full py-1 text-white text-md font-bold text-gray-900" style="background-color: {{$communities[$type->id]->color}}">
+                                {{$communities[$type->id]->name}}
+                              </div>
                           </th>
                           <th scope="row" class="px-6 py-4">
                             @if (count($sales) > 0)  
@@ -508,12 +517,13 @@
                             {{$sales[$type->id]['sales']}}
                           </th>
                       </tr>
+                      @endforeach
                   @endforeach
               </tbody>
             </table>
-            <div class="mt-5">
-              {{$types->links()}}
-            </div>
+            {{--<div class="mt-5">
+              {{$community->links()}}
+            </div>--}}
           </div>
         </div>      
       </div>
