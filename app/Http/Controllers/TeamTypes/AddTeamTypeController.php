@@ -5,6 +5,8 @@ namespace App\Http\Controllers\TeamTypes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use App\Services\Team\TeamTypeService;
 use App\Services\Owners\OwnerGroupService;
@@ -15,6 +17,7 @@ class AddTeamTypeController extends Controller
     private $teamTypeService;
     private $ownerGroupService;
     private $ownerService;
+    private $communities;
 
     public function __construct (
         TeamTypeService $teamTypeService,
@@ -56,19 +59,66 @@ class AddTeamTypeController extends Controller
             'central' => ['required', 'max:100', 'numeric'],
             'marketing' => ['required', 'max:100', 'numeric'],
             'support' => ['required', 'max:100', 'numeric'],
-            'community' => ['required', 'min:1', 'numeric']
+            'community' => ['required', 'min:1', 'string']
         ]);
-
         
-        if ($req['sip'] > 0 && $req['central'] > 0 && $req['marketing'] > 0 && $req['support'] > 0 && $req['community'] > 0) {
+        $user = Auth::user();
+        $circles = $this->ownerGroupService->listOwnerGroupByUserId($user->id);
+        $links = $this->ownerService->listGroupsByMemberId($user->id);
+
+        if (count($links) > 0) {
+            foreach ($links as $link) {
+                $groups [] = $this->ownerGroupService->getGroup($link->group_id);
+            }
+
+            foreach ($groups as $group) {
+                $communities[$group->id] = $group;
+            }
+        }
+
+        foreach ($circles as $circle) {
+            $communities [$circle->id] = $circle;
+        }
+
+        if ($req['sip'] > 0 && $req['central'] > 0 && $req['marketing'] > 0 && $req['support'] > 0 && strlen($req['community']) > 0) {
             $types = $this->teamTypeService->listTypesByGroupId ($req['community']);
-            
+
+            $cont = 0;
+            foreach ($communities as $community) {
+                if ($community->uuid === $req['community']) {
+                    if ($user->id == $this->ownerGroupService->getGroupByUuid($req['community'])->user_id) {
+                        $req['community'] = $this->ownerGroupService->getGroupByUuid($req['community'])->id;
+                    } 
+                    
+                    $members = $this->ownerGroupService->listMyMembers($community->id);
+
+                    if (count($members) > 0) {
+                        foreach ($members as $member) {
+                            if ($member->user_id == $user->id) {
+                                $req['community'] = $this->ownerGroupService->getGroupByUuid($req['community'])->id;
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+
+                $cont += 1;
+            }
+
+            if ($cont >= count($communities)) {
+                return back()
+                ->with('status', "The community selected does not belong to your user")
+                ->with('style', 'danger');
+            }
+
             foreach ($types as $type) {
                 if ($type->name === $req['name']) {
                     return back()
                     ->with('status', $req['name'] . ' name is already in use, try again!')
                     ->with('style', 'danger');
-                }
+                } 
             }
 
             $data = [
@@ -77,8 +127,9 @@ class AddTeamTypeController extends Controller
                 'central' => $req['central'],
                 'marketing' => $req['marketing'],
                 'support' => $req['support'],
-                'user_id' => Auth::user()->id,
-                'group_id' => $req['community']
+                'user_id' => $user->id,
+                'group_id' => $req['community'],
+                'uuid' => Hash::make(Str::random(60))
             ];
 
             if ($this->teamTypeService->setType($data)) {
@@ -93,7 +144,9 @@ class AddTeamTypeController extends Controller
                 ->with('style', 'danger');
             }
         } else {       
-            return back()->with('status', 'All the parameters must be greater than 0%')->with('style', 'danger');
+            return back()
+            ->with('status', 'All the parameters must be greater than 0%')
+            ->with('style', 'danger');
         }
     }
 }

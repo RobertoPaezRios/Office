@@ -3,6 +3,8 @@
 namespace App\Repositories\Owners;
 
 use App\Models\OwnerGroup;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class OwnerGroupRepository {
   public function getOwner ($userId) {
@@ -33,12 +35,17 @@ class OwnerGroupRepository {
     return OwnerGroup::find($groupId)->owner;
   }
 
+  public function getGroupByUuid ($uuid) {
+    return OwnerGroup::where('uuid', $uuid)->first();
+  }
+
   public function listOwnerGroupByUserId ($userId) {
     return OwnerGroup::where('user_id', $userId)->get();
   }
 
   public function createGroup ($userId, $name) {
     return OwnerGroup::create ([
+      'uuid' => Hash::make(Str::random(60)),
       'user_id' => $userId, 
       'name' => $name
     ]);

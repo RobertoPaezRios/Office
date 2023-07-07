@@ -14,6 +14,7 @@ use App\Services\Team\TeamTypeService;
 use App\Services\Owners\OwnerGroupService;
 use App\Services\Owners\OwnerService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CreateTeam implements CreatesTeams
 {
@@ -41,20 +42,35 @@ class CreateTeam implements CreatesTeams
      */
     public function create(User $user, array $input)
     {
-
         Gate::forUser($user)->authorize('create', Jetstream::newTeamModel());
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],     
-            'type' => ['required', 'numeric'],
-            'community' => ['required', 'numeric', 'min:1'] 
+            'type' => ['required', 'string', 'min:1'],
+            'community' => ['required', 'string', 'min:1'] 
         ])->validateWithBag('createTeam');
+
+        if (is_null($this->teamTypeService->getType($input['type']))) {
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', 'The team type selected does not exist!')
+            ->with('style', 'danger');
+        }
 
         if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {
             return 
             redirect()
             ->route('dashboard')
             ->with('status', 'The team type selected is not yours!')
+            ->with('style', 'danger');
+        }
+
+        if (is_null($this->ownerGroupService->getGroup($input['community']))) {
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', 'The community selected does not exist!')
             ->with('style', 'danger');
         }
 

@@ -53,9 +53,8 @@
             <div class="w-full">
               <x-label for="community" class="mt-2 text-left">Community:</x-label>
               <select class="rounded w-full mt-2 border shadow-sm border-gray-200 text-gray-500" name="community" id="community">
-                <option value="0">Select a Community...</option>
                 @foreach ($communities as $community)
-                  <option value="{{$community->id}}">{{$community->name}}</option>
+                  <option value="{{$community->uuid}}">{{$community->name}}</option>
                 @endforeach
               </select>
               <x-input-error for="community"></x-input-error>

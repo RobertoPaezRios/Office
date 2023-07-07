@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('owner_groups', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid');
             $table->string('name');
             $table->string('color')->nullable()->default('#4F46E6');
             $table->unsignedBigInteger('user_id');

@@ -33,6 +33,10 @@ class OwnerGroupService {
     return $this->ownerGroupRepository->getColorByGroupId($groupId);
   }
 
+  public function getGroupByUuid ($uuid) {
+    return $this->ownerGroupRepository->getGroupByUuid($uuid);
+  }
+
   public function listOwnerGroupByUserId ($userId) {
     return $this->ownerGroupRepository->listOwnerGroupByUserId($userId);
   }

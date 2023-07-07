@@ -19,7 +19,8 @@ class TeamType extends Model
         'support',
         'central',
         'user_id',
-        'group_id'
+        'group_id',
+        'uuid'
     ];
 
     /**

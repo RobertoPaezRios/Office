@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('team_types', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid');
             $table->string('name');
             $table->integer('sip');
             $table->unsignedBigInteger('user_id');
