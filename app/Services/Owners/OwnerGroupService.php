@@ -25,6 +25,31 @@ class OwnerGroupService {
     $this->teamService = $teamService;
   }
   
+  public function getOwnerByGroupUuid($uuid) {
+    return $this->ownerGroupRepository->getOwnerByGroupUuid($uuid);
+  }
+
+  public function listBelongingCommunities ($user) {
+    $circles = $this->listOwnerGroupByUserId($user->id);
+    $links = $this->ownerService->listGroupsByMemberId($user->id);
+
+    if (count($links) > 0) {
+      foreach ($links as $link) {
+        $groups [] = $this->getGroup($link->group_id);
+      }
+
+      foreach ($groups as $group) {
+        $communities[$group->id] = $group;
+      }
+    }
+
+    foreach ($circles as $circle) {
+      $communities [$circle->id] = $circle;
+    }
+
+    return $communities;
+  }
+
   public function setColor ($color, $groupId) {
     return $this->ownerGroupRepository->setColor($color, $groupId);
   }

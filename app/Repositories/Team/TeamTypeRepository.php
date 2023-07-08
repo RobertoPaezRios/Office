@@ -55,6 +55,10 @@ class TeamTypeRepository {
     return TeamType::find($id);
   }
 
+  public function getTypeByUuid($uuid) {
+    return TeamType::where('uuid', $uuid)->first();
+  }
+
   public function getUserTypes ($userId) {
     return TeamType::where('user_id', $userId)->get();
   }
@@ -65,5 +69,10 @@ class TeamTypeRepository {
 
   public function getOwner ($typeId) {
     return TeamType::find($typeId)->user_id;
+  }
+
+  public function getOwnerByUuid($uuid) {
+    $type = TeamType::where('uuid', $uuid)->first();
+    return $type->owner;
   }
 }

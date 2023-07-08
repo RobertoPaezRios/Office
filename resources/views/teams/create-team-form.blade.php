@@ -22,47 +22,11 @@
         </div>--}}
 
         <div class="col-span-6 sm:col-span-4">  
-            @php 
-
-            $user = Illuminate\Support\Facades\Auth::user();
-            //$types = \App\Models\TeamType::where('user_id', $user->id)->get();
-
-            $communities = \App\Models\OwnerGroup::where('user_id', $user->id)->get();
-            $links = \App\Models\Owner::where('user_id', $user->id)->get();
-            $groups = [];
-            $types = [];
-
-            if (count($links) > 0) {
-                foreach ($links as $link) {
-                    $group = \App\Models\OwnerGroup::where('id', $link->group_id)->get(); 
-                    $groups [$group[0]->id] = $group[0];
-                }
-            }
-
-            if (count($communities) > 0) {
-                foreach ($communities as $community) {
-                    $groups [$community->id] = $community;
-                }
-            }
-
-            //dd($groups);
-
-            if (count($communities) > 0 || count($links) > 0) {
-                foreach ($groups as $group) {
-                    $types [$group->id] = \App\Models\TeamType::where('group_id', $group->id)->get();
-                }
-            }
-            //dd($types[1][0]);
-            @endphp
-
             <x-label for="community" value="{{__('Team Community')}}"/>
-            <select class="block rounded mb-2 mt-1 w-full" wire:model.defer="state.community">
+            <select class="block rounded mb-2 mt-1 w-full" wire:model="selectedCommunity" wire:model.defer="state.community">
                 <option value="0">Choose the Community...</option>
-                {{--@foreach ($communities as $community)
-                    <option value="{{$community->id}}">{{$community->name}}</option>
-                @endforeach--}}
-                @foreach ($groups as $group)
-                    <option value="{{$group->id}}">{{$group->name}}</option>
+                @foreach ($communities as $community)
+                    <option value="{{$community->uuid}}">{{$community->name}}</option>
                 @endforeach
             </select>
             <x-input-error for="community" class="mt-2 mb-2" />
@@ -73,19 +37,20 @@
             <x-label for="type" class="mt-2" value="{{ __('Team Type') }}"/>
             
             <select id="type" name="type" wire:model.defer="state.type" class="block rounded mt-1 w-full">
-                <option value="0">Choose a Type...</option>
-                {{--@foreach ($groups as $communities)
-                    @foreach ($communities as $community) 
-                        @foreach ($types[$community->id] as $key => $type)
-                            <option value="{{$type->id}}" @if($key == 0) selected @endif>{{ucfirst($type->name)}}</option>
-                        @endforeach
-                    @endforeach
-                @endforeach--}}
-                @foreach ($groups as $community)
-                    @foreach ($types[$community->id] as $type) 
-                        <option value="{{$type->uuid}}">{{$type->name}}</option>
-                    @endforeach 
-                @endforeach
+                <option value="0">
+                    @if (is_null($selectedCommunity))
+                        Choose a Community first
+                    @else
+                        Choose a Type...
+                    @endif
+                </option>
+                @if (!is_null($selectedCommunity))
+                    @if (count($communities) > 0)
+                        @foreach ($types[$selectedCommunity] as $type) 
+                            <option value="{{$type->uuid}}">{{$type->name}}</option>  
+                        @endforeach 
+                    @endif
+                @endif
             </select>
             <x-input-error for="type" class="mt-2"/>
         </div>

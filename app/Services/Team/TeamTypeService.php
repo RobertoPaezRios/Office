@@ -14,6 +14,10 @@ class TeamTypeService {
     $this->teamTypeRepository = $teamTypeRepository;
   }
 
+  public function getOwnerByUuid($uuid) {
+    return $this->teamTypeRepository->getOwnerByUuid($uuid);
+  }
+
   public function userCanDelete ($userId, $typeId) {
     return $this->teamTypeRepository->userCanDelete($userId, $typeId);
   }
@@ -36,6 +40,10 @@ class TeamTypeService {
 
   public function getType ($id) {
     return $this->teamTypeRepository->getType($id);
+  }
+
+  public function getTypeByUuid($uuid) {
+    return $this->teamTypeRepository->getTypeByUuid($uuid);
   }
 
   public function setType ($data) {

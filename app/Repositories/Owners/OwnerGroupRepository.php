@@ -35,6 +35,12 @@ class OwnerGroupRepository {
     return OwnerGroup::find($groupId)->owner;
   }
 
+  public function getOwnerByGroupUuid ($uuid) {
+    $group = OwnerGroup::where('uuid', $uuid)->first();
+    
+    return $group->owner;
+  }
+
   public function getGroupByUuid ($uuid) {
     return OwnerGroup::where('uuid', $uuid)->first();
   }

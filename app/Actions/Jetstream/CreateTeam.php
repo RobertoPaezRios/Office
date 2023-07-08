@@ -50,23 +50,33 @@ class CreateTeam implements CreatesTeams
             'community' => ['required', 'string', 'min:1'] 
         ])->validateWithBag('createTeam');
 
-        if (is_null($this->teamTypeService->getType($input['type']))) {
+        $communities = $this->ownerGroupService->listBelongingCommunities(Auth::user());
+
+        if (is_null($this->teamTypeService->getTypeByUuid($input['type']))) {
             return 
             redirect()
             ->route('dashboard')
             ->with('status', 'The team type selected does not exist!')
             ->with('style', 'danger');
         }
+        
+        $cont = 0;
+        foreach ($communities as $community) {
+            if ($this->teamTypeService->getTypeByUuid($input['type'])->group_id == $community->id) {
+                break;
+            }
+            $cont++;
+        }
 
-        if (Auth::user()->id != $this->teamTypeService->getOwner($input['type'])) {
+        if ($cont >= count($communities)) {
             return 
             redirect()
             ->route('dashboard')
-            ->with('status', 'The team type selected is not yours!')
+            ->with('status', 'The team type selected does not belong to you!')
             ->with('style', 'danger');
         }
 
-        if (is_null($this->ownerGroupService->getGroup($input['community']))) {
+        if (is_null($this->ownerGroupService->getGroupByUuid($input['community']))) {
             return 
             redirect()
             ->route('dashboard')
@@ -74,15 +84,17 @@ class CreateTeam implements CreatesTeams
             ->with('style', 'danger');
         }
 
-        if (Auth::user()->id != $this->ownerGroupService->getOwnerByGroupId($input['community'])->id && count($this->ownerService->belongsTo(Auth::user()->id, $input['community'])) == 0) {
+        if (Auth::user()->id != $this->ownerGroupService->getOwnerByGroupUuid($input['community'])->id && count($this->ownerService->belongsTo(Auth::user()->id, $this->ownerGroupService->getOwnerByGroupUuid($input['community'])->id)) == 0) {
             return 
             redirect()
             ->route('dashboard')
             ->with('status', 'The community selected is not yours')
             ->with('style', 'danger');
         } 
+        $communityOwner = User::find($this->ownerGroupService->getOwnerByGroupUuid($input['community']));
 
-        $communityOwner = User::find($this->ownerGroupService->getOwnerByGroupId($input['community']));
+        $input['type'] = $this->teamTypeService->getTypeByUuid($input['type'])->id;
+        $input['community'] = $this->ownerGroupService->getGroupByUuid($input['community'])->id;
 
         AddingTeam::dispatch($communityOwner[0]);
 

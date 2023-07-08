@@ -86,4 +86,8 @@ Route::middleware([
     
     Route::post('/update-community/{id}', [UpdateGroupController::class, 'update'])
         ->name('update-community.update');
+
+    Route::get('/community/{uuid}', function ($uuid) {
+        return $uuid;
+    })->name('community');
 });
