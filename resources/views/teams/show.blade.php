@@ -345,7 +345,7 @@
     </style>
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @livewire('teams.update-team-name-form', ['team'=> $team, 'types'=> $types]) 
+            @livewire('teams.update-team-name-form', ['team'=> $team]) 
             @if ($team->personal_team == 0)
             <div class="bg-white shadow-md mt-7 text-center rounded-lg mx-auto sm:px-6 lg:px-8">
                 <div class="py-2">

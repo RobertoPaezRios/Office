@@ -10,9 +10,8 @@
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" style="width:50%">
       <div class="bg-white overflow-hidden sm:rounded-lg p-6 text-center">
-        <form action="{{route('update.update-team-type')}}" method="POST">
+        <form action="{{route('update.update-team-type', $type->uuid)}}" method="POST">
           @csrf
-          <x-input type="hidden" name="id" value="{{$type->id}}"/>
 
           <div class="flex justify-between gap-4">
             <div class="w-full">

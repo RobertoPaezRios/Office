@@ -66,10 +66,10 @@ Route::middleware([
     Route::post('/update-team-type-history', [UpdateTeamTypeHistoryController::class, 'update'])
         ->name('update-team-type-history');
 
-    Route::get('/update-team-type/{id}', [UpdateTeamTypeController::class, 'create'])
+    Route::get('/update-team-type/{uuid}', [UpdateTeamTypeController::class, 'create'])
         ->name('update-team-type');
 
-    Route::post('/update-team-type', [UpdateTeamTypeController::class, 'update'])
+    Route::post('/update-team-type/{uuid}', [UpdateTeamTypeController::class, 'update'])
         ->name('update.update-team-type');
     
     Route::get('/communities-admin', [OwnerGroupController::class, 'create'])
@@ -81,10 +81,10 @@ Route::middleware([
     Route::post('/create-community', [CreateGroupController::class, 'store'])
         ->name('create-group.store');
 
-    Route::get('/update-community/{id}', [UpdateGroupController::class, 'create'])
+    Route::get('/update-community/{uuid}', [UpdateGroupController::class, 'create'])
         ->name('update-community');
     
-    Route::post('/update-community/{id}', [UpdateGroupController::class, 'update'])
+    Route::post('/update-community/{uuid}', [UpdateGroupController::class, 'update'])
         ->name('update-community.update');
 
     Route::get('/community/{uuid}', function ($uuid) {

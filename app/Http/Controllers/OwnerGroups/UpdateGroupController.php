@@ -26,11 +26,11 @@ class UpdateGroupController extends Controller
         $this->ownerService = $ownerService;
     }   
 
-    public function create ($id) {
-        $group = $this->ownerGroupService->getGroup($id);
+    public function create ($uuid) {
+        $group = $this->ownerGroupService->getGroupByUuid($uuid);
         $members = $this->ownerService->listMembersByGroupId($group->id);
-        
-        if (count($this->teamService->listTeamsByGroupId($group->id)) > 0) {
+    
+        /*if (count($this->teamService->listTeamsByGroupId($group->id)) > 0) {
             return view ('owners-group.update-group', [
                 'name' => $group->name,
                 'owner' => $group->owner,
@@ -38,7 +38,7 @@ class UpdateGroupController extends Controller
                 'color' => $group->color,
                 'status' => false
             ]);
-        }
+        }*/
 
         if ($group->owner->id != Auth::user()->id && count($this->ownerService->belongsTo(Auth::user()->id, $group->id)) == 0) {
             return redirect()
@@ -59,7 +59,7 @@ class UpdateGroupController extends Controller
     public function update ($id, Request $req) {
         $req->validate([
             'name' => ['string', 'max:255'],
-            'color' => ['string', 'max:7']
+            'color' => ['string', 'max:7', 'min:1']
         ]);
 
         if ($req['color'][0] != '#') {
@@ -71,12 +71,12 @@ class UpdateGroupController extends Controller
 
         $group = $this->ownerGroupService->getGroup($id);
 
-        if (count($this->teamService->listTeamsByGroupId($group->id)) > 0) {
+        /*if (count($this->teamService->listTeamsByGroupId($group->id)) > 0) {
             return redirect()
             ->route('partners-admin')
             ->with('status', 'The community ' . $group->name . "cant't be updated")
             ->with('status', 'danger');
-        }
+        }*/
 
         if ($group->owner->id != Auth::user()->id && count($this->ownerService->belongsTo(Auth::user()->id, $group->id)) == 0) {
             return redirect()

@@ -129,7 +129,7 @@ class AddTeamTypeController extends Controller
                 'support' => $req['support'],
                 'user_id' => $user->id,
                 'group_id' => $req['community'],
-                'uuid' => Hash::make(Str::random(60))
+                'uuid' => hash('sha256', Str::random(60))
             ];
 
             if ($this->teamTypeService->setType($data)) {

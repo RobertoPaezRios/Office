@@ -16,8 +16,8 @@ class UpdateTeamTypeController extends Controller
         $this->teamTypeService = $teamTypeService;
     }
 
-    public function create ($id) {
-        $type = $this->teamTypeService->getType($id);
+    public function create ($uuid) {
+        $type = $this->teamTypeService->getTypeByUuid($uuid);
 
         if ($type == null) return redirect()->route('dashboard');
         else {
@@ -31,17 +31,21 @@ class UpdateTeamTypeController extends Controller
         ]);
     }
 
-    public function update (Request $req) {
-        $type = $this->teamTypeService->getType($req['id']);
+    public function update (Request $req, $uuid) {
+        $type = $this->teamTypeService->getTypeByUuid($uuid);
 
-        if ($type == null) return redirect()->route('dashboard');    
+        if (is_null($type)) {
+            return redirect()
+            ->to('types-admin')
+            ->with('status', 'Type not found!')
+            ->with('style', 'danger');    
+        }
 
         if ($type->user_id != Auth::user()->id) {
             return redirect()->route('types-admin')->with('status', "You cant update a team type that is not yours")->with('style', 'danger');
         } 
 
         $req->validate([
-            'id' => ['required', 'numeric', 'min:1'],
             'name' => ['required', 'string', 'max:255'],
             'sip' => ['required', 'numeric'],
             'central' => ['required', 'numeric'],
@@ -50,15 +54,15 @@ class UpdateTeamTypeController extends Controller
         ]);
         
         $data = [
-            'id' => $req['id'],
             'name' => $req['name'],
             'sip' => $req['sip'],
             'central' => $req['central'],
             'marketing' => $req['marketing'],
-            'support' => $req['support']
+            'support' => $req['support'],
+            'uuid' => $uuid
         ];
 
-        if ($this->teamTypeService->updateType($data['id'], $data)) {
+        if ($this->teamTypeService->updateType($type->id, $data)) {
             return redirect()->route('types-admin')->with('status', 'Team Type ' . ucfirst($data['name']) . ' updated successfully!')->with('style', 'success');
         } else {
             return redirect()->route('types-admin')->with('status', 'Something ocurred while updating ' . $data['name'] . ' team type!')->with('style', 'danger');

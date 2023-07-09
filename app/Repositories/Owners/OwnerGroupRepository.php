@@ -51,7 +51,7 @@ class OwnerGroupRepository {
 
   public function createGroup ($userId, $name) {
     return OwnerGroup::create ([
-      'uuid' => Hash::make(Str::random(60)),
+      'uuid' => hash('sha256', Str::random(60)),
       'user_id' => $userId, 
       'name' => $name
     ]);

@@ -27,6 +27,10 @@ class TeamTypeHistoryService {
     return $this->teamTypeHistoryRepository->listTeamTypeHistoricsIds($historicId);
   }
 
+  public function getTeamActualType ($teamId) {
+    return $this->teamTypeHistoryRepository->getTeamActualType($teamId);
+  }
+
   public function getTeamTypeHistoryById ($id) {
     return $this->teamTypeHistoryRepository->getTeamTypeHistoryById($id);
   }
