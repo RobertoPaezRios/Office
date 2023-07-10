@@ -40,17 +40,24 @@ class CreateTeam implements CreatesTeams
      *
      * @param  array<string, string>  $input
      */
-    public function create(User $user, array $input)
-    {
+    public function create(User $user, array $input) {
         Gate::forUser($user)->authorize('create', Jetstream::newTeamModel());
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],     
             'type' => ['required', 'string', 'min:1'],
             'community' => ['required', 'string', 'min:1'] 
-        ])->validateWithBag('createTeam');
-
+        ]);
+        
         $communities = $this->ownerGroupService->listBelongingCommunities(Auth::user());
+
+        if (!$communities) {
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', '0 communities found!')
+            ->with('style', 'danger');
+        }
 
         if (is_null($this->teamTypeService->getTypeByUuid($input['type']))) {
             return 

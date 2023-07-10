@@ -47,7 +47,8 @@ class OwnerGroupService {
       $communities [$circle->id] = $circle;
     }
 
-    return $communities;
+    if (isset($communities)) return $communities;
+    else return false;
   }
 
   public function setColor ($color, $groupId) {

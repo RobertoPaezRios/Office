@@ -20,14 +20,16 @@
                 </div>
             </div>
         </div>--}}
-
+        
         <div class="col-span-6 sm:col-span-4">  
             <x-label for="community" value="{{__('Team Community')}}"/>
             <select class="block rounded mb-2 mt-1 w-full" wire:model="selectedCommunity" wire:model.defer="state.community">
                 <option value="0">Choose the Community...</option>
-                @foreach ($communities as $community)
-                    <option value="{{$community->uuid}}">{{$community->name}}</option>
-                @endforeach
+                @if ($communities)
+                    @foreach ($communities as $community)
+                        <option value="{{$community->uuid}}">{{$community->name}}</option>
+                    @endforeach
+                @endif
             </select>
             <x-input-error for="community" class="mt-2 mb-2" />
 
@@ -45,7 +47,7 @@
                     @endif
                 </option>
                 @if (!is_null($selectedCommunity))
-                    @if (count($communities) > 0)
+                    @if ($communities)
                         @foreach ($types[$selectedCommunity] as $type) 
                             <option value="{{$type->uuid}}">{{$type->name}}</option>  
                         @endforeach 

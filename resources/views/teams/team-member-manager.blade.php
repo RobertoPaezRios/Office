@@ -235,7 +235,7 @@
                 {{ __('Leave') }}
             </x-danger-button>
         </x-slot>
-    </x-confirmation-modal>
+    </x-confirmation-modal>--}}
 
     <!-- Remove Team Member Confirmation Modal -->
     <x-confirmation-modal wire:model="confirmingTeamMemberRemoval">
@@ -256,5 +256,5 @@
                 {{ __('Remove') }}
             </x-danger-button>
         </x-slot>
-    </x-confirmation-modal>--}}
+    </x-confirmation-modal>
 </div>

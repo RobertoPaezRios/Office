@@ -346,109 +346,109 @@
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             @livewire('teams.update-team-name-form', ['team'=> $team]) 
-            @if ($team->personal_team == 0)
-            <div class="bg-white shadow-md mt-7 text-center rounded-lg mx-auto sm:px-6 lg:px-8">
-                <div class="py-2">
-                    <h4 class="font-semibold text-gray-700 py-2 text-left">Team Historic </h4>
-                    <div class="border rounded-lg shadow-md py-5 mb-6 p-4">
-                        <table class="w-full text-sm text-left text-gray-500 text-center">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Type Name </th>
-                                    <th scope="col" class="px-6 py-3">Updated At </th>
-                                    <th scope="col" class="px-6 py-3">Actions</th>
-                                    <th scope="col" class="px-6 py-3">Nº Sales</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($types as $key=> $type) 
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> 
-                                        {{ucfirst($type['name'])}}
-                                    </th>
-                                    <td class="px-6 py-4"> 
-                                        {{$type['created_at']}}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        @if ($key > 0 && $type['deletable']) 
-                                            <x-button class="bg-red-600 hover:bg-red-700" data-bs-toggle="modal" data-bs-target="#confirmateModal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                </svg>
-                                            </x-button>
-                                        <!-- Modal -->
-                                            <div class="modal fade" id="confirmateModal" tabindex="-1" aria-labelledby="confirmateModal" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title text-gray-900 font-bold"
-                                                                id="confirmateModalLabel">Confirmate Deleting</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                                                </svg>                                                                  
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">Are you sure you want to delete this register?, this will be permanent. </div>
-                                                        <div class="modal-footer">
-                                                            <x-button type="button" data-bs-dismiss="modal">
-                                                                Close
-                                                            </x-button>
-                                                            <x-danger-button type="button">
-                                                                <a href="{{route('delete-team-type-history', $type['id'])}}">
-                                                                    Delete
-                                                                </a>
-                                                            </x-danger-button>
+            @if ($team->personal_team == 0 && $types)
+                <div class="bg-white shadow-md mt-7 text-center rounded-lg mx-auto sm:px-6 lg:px-8">
+                    <div class="py-2">
+                        <h4 class="font-semibold text-gray-700 py-2 text-left">Team Historic </h4>
+                        <div class="border rounded-lg shadow-md py-5 mb-6 p-4">
+                            <table class="w-full text-sm text-left text-gray-500 text-center">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">Type Name </th>
+                                        <th scope="col" class="px-6 py-3">Updated At </th>
+                                        <th scope="col" class="px-6 py-3">Actions</th>
+                                        <th scope="col" class="px-6 py-3">Nº Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($types as $key=> $type) 
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> 
+                                            {{ucfirst($type['name'])}}
+                                        </th>
+                                        <td class="px-6 py-4"> 
+                                            {{$type['created_at']}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @if ($key > 0 && $type['deletable']) 
+                                                <x-button class="bg-red-600 hover:bg-red-700" data-bs-toggle="modal" data-bs-target="#confirmateModal">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                    </svg>
+                                                </x-button>
+                                            <!-- Modal -->
+                                                <div class="modal fade" id="confirmateModal" tabindex="-1" aria-labelledby="confirmateModal" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title text-gray-900 font-bold"
+                                                                    id="confirmateModalLabel">Confirmate Deleting</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>                                                                  
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">Are you sure you want to delete this register?, this will be permanent. </div>
+                                                            <div class="modal-footer">
+                                                                <x-button type="button" data-bs-dismiss="modal">
+                                                                    Close
+                                                                </x-button>
+                                                                <x-danger-button type="button">
+                                                                    <a href="{{route('delete-team-type-history', $type['id'])}}">
+                                                                        Delete
+                                                                    </a>
+                                                                </x-danger-button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            @elseif ($type['deletable'] == 'change')
-                                                <div class="flex justify-between">
-                                                    <form action="/update-team-type-history" method="POST" class="flex justify-between w-full">
-                                                        @csrf
-                                                        <select name="type" id="type" class="block rounded mt-1 w-full">
-                                                        @foreach ($myTypes as $key => $type)
-                                                            <option value="{{$type['id']}}">
-                                                                {{$type['name']}}
-                                                            </option>
-                                                        @endforeach
-                                                        </select>
-                                                        <x-button class="ml-2 mt-1" id="update-type-btn">
-                                                            <div id="update-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                                                </svg>
-                                                            </div>
-                                                            <span class="ml-2">
-                                                                Update
-                                                            </span>                                                          
-                                                        </x-button>
-                                                    </form>
-                                                </div>
-                                            @else
-                                                <x-button class="hover:bg-gray-800" disabled>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                                                    </svg>                                                      
-                                                </x-button>
-                                            @endif
-                                    </td>
-                                    <td>
-                                        <span class="text-gray-800 font-semibold">
-                                            @if ($type['nSales'] < 1) 
-                                                0
-                                            @else
-                                                {{$type['nSales']}}
-                                            @endif
-                                        </span>
-                                    </td>
-                                </tr>@endforeach </tbody>
-                        </table>
+                                                @elseif ($type['deletable'] == 'change')
+                                                    <div class="flex justify-between">
+                                                        <form action="/update-team-type-history" method="POST" class="flex justify-between w-full">
+                                                            @csrf
+                                                            <select name="type" id="type" class="block rounded mt-1 w-full">
+                                                            @foreach ($myTypes as $key => $type)
+                                                                <option value="{{$type['id']}}">
+                                                                    {{$type['name']}}
+                                                                </option>
+                                                            @endforeach
+                                                            </select>
+                                                            <x-button class="ml-2 mt-1" id="update-type-btn">
+                                                                <div id="update-icon">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                                                    </svg>
+                                                                </div>
+                                                                <span class="ml-2">
+                                                                    Update
+                                                                </span>                                                          
+                                                            </x-button>
+                                                        </form>
+                                                    </div>
+                                                @else
+                                                    <x-button class="hover:bg-gray-800" disabled>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                                        </svg>                                                      
+                                                    </x-button>
+                                                @endif
+                                        </td>
+                                        <td>
+                                            <span class="text-gray-800 font-semibold">
+                                                @if ($type['nSales'] < 1) 
+                                                    0
+                                                @else
+                                                    {{$type['nSales']}}
+                                                @endif
+                                            </span>
+                                        </td>
+                                    </tr>@endforeach </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                @endif
-            </div>
+            @endif
             
             @livewire('teams.team-member-manager', ['team'=> $team, 'type'=> $types]) 
             {{--
