@@ -120,7 +120,10 @@
             @else
                 <div class="flex justify-center bg-gray-100 p-6 rounded-lg">
                     <span class="mx-auto my-auto">
-                        {{__('0 communities found!')}}
+                        {{__("You don't have communities,")}}
+                        <a href="{{route('create-group')}}" class="underline">
+                            create one now
+                        </a>
                     </span>
                 </div>
             @endif
