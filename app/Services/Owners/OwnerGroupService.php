@@ -63,6 +63,10 @@ class OwnerGroupService {
     return $this->ownerGroupRepository->getGroupByUuid($uuid);
   }
 
+  public function destroyGroup ($id) {
+    return $this->ownerGroupRepository->destroyGroup($id);
+  }
+
   public function listOwnerGroupByUserId ($userId) {
     return $this->ownerGroupRepository->listOwnerGroupByUserId($userId);
   }

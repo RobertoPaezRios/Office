@@ -29,16 +29,6 @@ class UpdateGroupController extends Controller
     public function create ($uuid) {
         $group = $this->ownerGroupService->getGroupByUuid($uuid);
         $members = $this->ownerService->listMembersByGroupId($group->id);
-    
-        /*if (count($this->teamService->listTeamsByGroupId($group->id)) > 0) {
-            return view ('owners-group.update-group', [
-                'name' => $group->name,
-                'owner' => $group->owner,
-                'id' => $group->id,
-                'color' => $group->color,
-                'status' => false
-            ]);
-        }*/
 
         if ($group->owner->id != Auth::user()->id && count($this->ownerService->belongsTo(Auth::user()->id, $group->id)) == 0) {
             return redirect()

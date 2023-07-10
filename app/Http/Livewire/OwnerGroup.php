@@ -28,8 +28,10 @@ class OwnerGroup extends Component
     private $teams;
     private $sales;
     private $employees;
+    private $partners;
     private $colors;
     private $links;
+    public $deleteId;
 
     public function __construct () {
         $this->ownerService = new OwnerService (new OwnerRepository);
@@ -59,6 +61,7 @@ class OwnerGroup extends Component
             $this->owners [$group->id] = $this->ownerGroupService->getGroupOwner ($group->id);
             $this->teams [$group->id] = $this->ownerGroupService->listTeamsByGroupId ($group->id);
             $this->colors [$group->id] = $this->ownerGroupService->getColorByGroupId ($group->id);
+            $this->partners[$group->id] = $this->ownerGroupService->listMyMembers($group->id);
 
             if (count($this->teams[$group->id]) > 0) {
                 foreach ($this->teams[$group->id] as $team) {
@@ -87,6 +90,85 @@ class OwnerGroup extends Component
         }
     }   
 
+    public function setDeleteUuid ($uuid) {
+        if (!is_null($this->ownerGroupService->getGroupByUuid($uuid))) {
+            if (count($this->ownerGroupService->listBelongingCommunities(Auth::user())) > 0) {
+                $cont = 0;
+
+                foreach ($this->ownerGroupService->listBelongingCommunities(Auth::user()) as $community) {
+                    if ($community->uuid === $uuid) {
+                        $this->deleteId = $community->id;
+                        break;
+                    }
+                    $cont+=1;
+                }  
+
+                if ($cont >= count($this->ownerGroupService->listBelongingCommunities(Auth::user()))) {
+                    return redirect()
+                    ->back()
+                    ->with('status', '0 communities found!')
+                    ->with('style', 'danger');
+                }
+            } else {
+                return redirect()
+                ->back()
+                ->with('status', '0 communities found!')
+                ->with('style', 'danger');
+            }
+        } else {
+            return redirect()
+            ->back()
+            ->with('status', '0 communities found!')
+            ->with('style', 'danger');
+        }
+    }
+
+    public function destroy () {
+        if (!is_null($this->deleteId)) {
+            $communities = $this->ownerGroupService->listBelongingCommunities(Auth::user());
+
+            if ($communities) {
+                $cont = 0;
+                foreach ($communities as $community) {
+                    if ($community->id === $this->deleteId && count($community->teams) == 0 && count($this->ownerGroupService->listMyMembers($community->id)) == 0) {
+                        break;
+                    }
+                    
+                    $cont += 1;
+                }
+                
+                if ($cont >= count($communities)) {
+                    return redirect()
+                    ->back()
+                    ->with('status', '0 communities found!')
+                    ->with('style', 'danger');
+                }
+
+                if ($this->ownerGroupService->destroyGroup($this->deleteId)) {
+                    return redirect()
+                    ->back()
+                    ->with('status', 'Group Deleted Successfully!')
+                    ->with('style', 'success');
+                } else {
+                    return redirect()
+                    ->back()
+                    ->with('status', 'Something ocurred while deleting the group!')
+                    ->with('style', 'danger');   
+                }
+            } else {
+                return redirect()
+                ->back()
+                ->with('status', '0 communities found!')
+                ->with('style', 'danger');
+            }
+        } else {
+            return redirect()
+            ->back()
+            ->with('status', '0 communities found!')
+            ->with('style', 'danger');
+        }
+    }
+
     public function render()
     {
         $this->mount();
@@ -97,7 +179,8 @@ class OwnerGroup extends Component
             'owners' => $this->owners,
             'teams' => $this->teams,
             'employees' => $this->employees,
-            'colors' => $this->colors
+            'colors' => $this->colors,
+            'partners' => $this->partners
         ]);
     }
 }

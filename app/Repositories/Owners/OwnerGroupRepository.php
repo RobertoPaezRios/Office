@@ -41,6 +41,16 @@ class OwnerGroupRepository {
     return $group->owner;
   }
 
+  public function destroyGroup($id) {
+    $group = OwnerGroup::find($id);
+
+    if (is_null($group)){
+      return false;
+    }
+
+    return $group->delete();
+  }
+
   public function getGroupByUuid ($uuid) {
     return OwnerGroup::where('uuid', $uuid)->first();
   }

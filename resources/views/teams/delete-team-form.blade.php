@@ -12,7 +12,7 @@
             {{ __('Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.') }}
         </div>
 
-        {{--<div class="mt-5">
+        <div class="mt-5">
             <x-danger-button wire:click="$toggle('confirmingTeamDeletion')" wire:loading.attr="disabled">
                 {{ __('Delete Team') }}
             </x-danger-button>

@@ -451,13 +451,10 @@
             @endif
             
             @livewire('teams.team-member-manager', ['team'=> $team, 'type'=> $types]) 
-            {{--
-            @if (Gate::check('delete', $team) && ! $team->personal_team)
+            {{--@if (Gate::check('delete', $team) && ! $team->personal_team)
                 <x-section-border />
                 <div class="mt-10 sm:mt-0">@livewire('teams.delete-team-form', ['team'=> $team]) </div>
-            @endif
-            --}}
-
+            @endif--}}
         </div>
     </div>
 </x-app-layout>
