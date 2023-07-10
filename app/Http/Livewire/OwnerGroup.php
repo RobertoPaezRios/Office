@@ -63,6 +63,8 @@ class OwnerGroup extends Component
             $this->colors [$group->id] = $this->ownerGroupService->getColorByGroupId ($group->id);
             $this->partners[$group->id] = $this->ownerGroupService->listMyMembers($group->id);
 
+            if (is_null($this->partners[$group->id])) $this->partners[$group->id] = [];
+
             if (count($this->teams[$group->id]) > 0) {
                 foreach ($this->teams[$group->id] as $team) {
                     $this->employees [$group->id] = count($this->teamService->listMembersByTeamId($team->id));
@@ -80,7 +82,8 @@ class OwnerGroup extends Component
                 $this->colors [$link->id] = $link->color;
                 $this->owners [$link->id] = $link->owner;
                 $this->teams [$link->id] = $this->ownerGroupService->listTeamsByGroupId ($link->id);
-                
+                $this->partners[$link->id] = $this->ownerGroupService->listMyMembers($link->id);
+
                 if (count($this->teams[$link->id]) > 0) {
                     foreach ($this->teams[$link->id] as $team) {
                         $this->employees [$link->id] = count($this->teamService->listMembersByTeamId($team->id));
