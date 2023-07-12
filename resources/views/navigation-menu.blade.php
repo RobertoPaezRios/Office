@@ -59,10 +59,10 @@
                         <x-nav-link href="{{ route('partners-admin') }}" :active="request()->routeIs('partners-admin')">
                             {{ __('Communities') }}
                         </x-nav-link>
+                        <x-nav-link href="{{ route('types-admin') }}" :active="request()->routeIs('types-admin')">
+                            {{ __('Business Models') }}
+                        </x-nav-link>
                     @endif
-                    <x-nav-link href="{{ route('types-admin') }}" :active="request()->routeIs('types-admin')">
-                        {{ __('Types') }}
-                    </x-nav-link>
                 </div>
             </div>
 

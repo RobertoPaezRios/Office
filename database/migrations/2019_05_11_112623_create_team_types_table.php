@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('uuid');
             $table->string('name');
-            $table->integer('sip');
+            $table->float('sip');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_id')->nullable();
-            $table->integer('central');
-            $table->integer('marketing');
-            $table->integer('support');
+            $table->float('central');
+            $table->float('marketing');
+            $table->float('support');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('group_id')->references('id')->on('owner_groups');
+            $table->foreign('group_id')->references('id')->on('owner_groups')->onDelete('cascade');
         });
     }
 

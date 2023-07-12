@@ -59,6 +59,22 @@ class CreateTeam implements CreatesTeams
             ->with('style', 'danger');
         }
 
+        if (!isset($input['community'])) {
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', '0 communities found!')
+            ->with('style', 'danger');
+        }
+        
+        if (!isset($input['type'])) {
+            return 
+            redirect()
+            ->route('dashboard')
+            ->with('status', '0 types found!')
+            ->with('style', 'danger');
+        }
+
         if (is_null($this->teamTypeService->getTypeByUuid($input['type']))) {
             return 
             redirect()

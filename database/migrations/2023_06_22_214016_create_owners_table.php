@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->unsignedBigInteger('group_id')->unique();
+            $table->unsignedBigInteger('group_id');
             $table->integer('status');
             $table->timestamps();
 

@@ -19,6 +19,14 @@ class OwnerService {
     return $this->ownerRepository->belongsTo($userId, $groupId);
   }
 
+  public function destroy ($id) {
+    return $this->ownerRepository->destroy($id);
+  }
+
+  public function getOwner ($id) {
+    return $this->ownerRepository->getOwner($id);
+  }
+
   public function getMyGroup ($userId) {
     return $this->ownerRepository->getMyGroup ($userId);
   }

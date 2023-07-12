@@ -27,6 +27,15 @@ class UpdateGroupController extends Controller
     }   
 
     public function create ($uuid) {
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (is_null($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'Team not found!')
+            ->with('style', 'danger');
+        }
+
         $group = $this->ownerGroupService->getGroupByUuid($uuid);
         $members = $this->ownerService->listMembersByGroupId($group->id);
 
@@ -42,11 +51,21 @@ class UpdateGroupController extends Controller
             'owner' => $group->owner,
             'id' => $group->id,
             'color' => $group->color,
+            'uuid' => $group->uuid,
             'status' => true
         ]);
     }
 
     public function update ($id, Request $req) {
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (is_null($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'Team not found!')
+            ->with('style', 'danger');
+        }
+
         $req->validate([
             'name' => ['string', 'max:255'],
             'color' => ['string', 'max:7', 'min:1']
@@ -80,7 +99,7 @@ class UpdateGroupController extends Controller
 
         if ($group->save()) {   
             return redirect()
-            ->route('partners-admin')
+            ->route('update-community', $group->uuid)
             ->with('status', 'Community Updated successfully!')
             ->with('style', 'success');
         } else {

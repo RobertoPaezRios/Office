@@ -25,6 +25,15 @@ class OwnerGroupController extends Controller
     }
 
     public function create () {
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (is_null($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'Team not found!')
+            ->with('style', 'danger');
+        }
+
         $this->user = $this->userService->getUserById(Auth::user()->id);
         $this->team = $this->teamService->getTeam($this->user->current_team_id);
 

@@ -11,25 +11,38 @@ use Illuminate\Support\Str;
 use App\Services\Team\TeamTypeService;
 use App\Services\Owners\OwnerGroupService;
 use App\Services\Owners\OwnerService;
+use App\Services\Team\TeamService;
 
 class AddTeamTypeController extends Controller
 {
     private $teamTypeService;
     private $ownerGroupService;
     private $ownerService;
+    private $teamService;
     private $communities;
 
     public function __construct (
         TeamTypeService $teamTypeService,
         OwnerGroupService $ownerGroupService,
-        OwnerService $ownerService
+        OwnerService $ownerService,
+        TeamService $teamService
     ) {
         $this->teamTypeService = $teamTypeService;
         $this->ownerGroupService = $ownerGroupService;        
         $this->ownerService = $ownerService;
+        $this->teamService = $teamService;
     }
 
     public function create () {
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (!$this->teamService->isPersonal($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'You can only access this page from your personal page')
+            ->with('style', 'danger');
+        }
+
         $circles = $this->ownerGroupService->listOwnerGroupByUserId(Auth::user()->id);
         $links = $this->ownerService->listGroupsByMemberId(Auth::user()->id);
 
@@ -53,6 +66,15 @@ class AddTeamTypeController extends Controller
     }
 
     public function store (Request $req) {
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (!$this->teamService->isPersonal($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'You can only access this page from your personal page')
+            ->with('style', 'danger');
+        }
+
         $req->validate([
             'name' => ['required', 'max:255', 'string'],
             'sip' => ['required', 'max:100', 'numeric'],

@@ -36,17 +36,17 @@
             <x-label for="name" value="{{ __('Team Name') }}" />
             <x-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autofocus />
             <x-input-error for="name" class="mt-2" />
-            <x-label for="type" class="mt-2" value="{{ __('Team Type') }}"/>
+            <x-label for="type" class="mt-2" value="{{ __('Team Business Model') }}"/>
             
             <select id="type" name="type" wire:model.defer="state.type" class="block rounded mt-1 w-full">
                 <option value="0">
-                    @if (is_null($selectedCommunity))
+                    @if (is_null($selectedCommunity) || $selectedCommunity <= 0)
                         Choose a Community first
                     @else
-                        Choose a Type...
+                        Choose a Business Model...
                     @endif
                 </option>
-                @if (!is_null($selectedCommunity))
+                @if (!is_null($selectedCommunity) && $selectedCommunity > 0)
                     @if ($communities)
                         @foreach ($types[$selectedCommunity] as $type) 
                             <option value="{{$type->uuid}}">{{$type->name}}</option>  

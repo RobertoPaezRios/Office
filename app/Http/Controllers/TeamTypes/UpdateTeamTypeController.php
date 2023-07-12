@@ -8,22 +8,34 @@ use App\Http\Controllers\Controller;
 
 use App\Services\Team\TeamTypeService;
 use App\Services\Owners\OwnerGroupService;
+use App\Services\Team\TeamService;
 
 class UpdateTeamTypeController extends Controller
 {
     private $teamTypeService;
     private $ownerGroupService;
+    private $teamService;
 
     public function __construct (
         TeamTypeService $teamTypeService,
-        OwnerGroupService $ownerGroupService
+        OwnerGroupService $ownerGroupService,
+        TeamService $teamService
     ) {
         $this->teamTypeService = $teamTypeService;
         $this->ownerGroupService = $ownerGroupService;
+        $this->teamService = $teamService;
     }
 
     public function create ($uuid) {
-        //FALTA COMPROBAR QUE SEA MIEMBRO DE LA COMUNIDAD
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (!$this->teamService->isPersonal($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'You can only access this page from your personal page')
+            ->with('style', 'danger');
+        }
+
         $type = $this->teamTypeService->getTypeByUuid($uuid);
 
         if ($type == null) return redirect()->route('dashboard');
@@ -67,6 +79,15 @@ class UpdateTeamTypeController extends Controller
     }
 
     public function update (Request $req, $uuid) {
+        $team = $this->teamService->getTeam(Auth::user()->current_team_id);
+
+        if (!$this->teamService->isPersonal($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'You can only access this page from your personal page')
+            ->with('style', 'danger');
+        }
+
         $type = $this->teamTypeService->getTypeByUuid($uuid);
 
         if (is_null($type)) {

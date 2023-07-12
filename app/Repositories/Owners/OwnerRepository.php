@@ -9,8 +9,16 @@ class OwnerRepository {
     return Owner::where('user_id', $userId)->get()->owner_group;
   }
 
+  public function getOwner ($id) {
+    return Owner::find($id);
+  }
+
   public function listGroupsByMemberId ($memberId) {
     return Owner::where('user_id', $memberId)->get();
+  }
+
+  public function destroy ($id) {
+    return Owner::find($id)->delete();
   }
 
   public function belongsTo ($userId, $groupId) {
