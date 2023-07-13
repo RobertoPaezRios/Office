@@ -36,6 +36,13 @@ class UpdateGroupController extends Controller
             ->with('style', 'danger');
         }
 
+        if (!$this->teamService->isPersonal($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'You can only acccess this page from your personal page')
+            ->with('style', 'danger');
+        }
+
         $group = $this->ownerGroupService->getGroupByUuid($uuid);
         $members = $this->ownerService->listMembersByGroupId($group->id);
 
@@ -52,7 +59,8 @@ class UpdateGroupController extends Controller
             'id' => $group->id,
             'color' => $group->color,
             'uuid' => $group->uuid,
-            'status' => true
+            'status' => true,
+            'user' => Auth::user()
         ]);
     }
 
@@ -63,6 +71,13 @@ class UpdateGroupController extends Controller
             return redirect()
             ->route('dashboard')
             ->with('status', 'Team not found!')
+            ->with('style', 'danger');
+        }
+
+        if (!$this->teamService->isPersonal($team)) {
+            return redirect()
+            ->route('dashboard')
+            ->with('status', 'You can only acccess this page from your personal page')
             ->with('style', 'danger');
         }
 

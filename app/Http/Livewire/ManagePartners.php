@@ -58,20 +58,25 @@ class ManagePartners extends Component
         
         if (!is_null($this->ownerService->getOwner(intval($id)))) {
             $this->uuid = $this->ownerService->getOwner($id)->owner_group->uuid;   
+        } else {
+            $this->deleteId = 0;
         }
     }
 
     public function destroy () {
         $this->mount($this->uuid);
-        if (!$this->ownerService->destroy($this->deleteId)) {
-            return redirect()
-            ->back()
-            ->with('status', 'Something went wrong while removing the partner')
-            ->with('style', 'danger');
+        if ($this->ownerService->getOwner($this->deleteId)) {   
+            if (!$this->ownerService->destroy($this->deleteId)) {
+                return redirect()
+                ->back()
+                ->with('status', 'Something went wrong while removing the partner')
+                ->with('style', 'danger');
+            }
         }
     }
 
     public function render() {
+        $this->mount($this->uuid);
         $group = $this->ownerGroupService->getGroupByUuid($this->uuid);
         
         if (is_null($group)) {
@@ -86,14 +91,14 @@ class ManagePartners extends Component
 
         if (count($this->partners) > 0) {
             foreach ($this->partners as $partner) {
-                $users[$partner->user_id] = $this->userService->getUserById($partner->user_id);
+                $partners[$partner->user_id] = $this->userService->getUserById($partner->user_id);
             }
-        } else $users = [];
+        } else $partners = [];
 
         return view('livewire.manage-partners', [
             'owner' => $this->owner,
             'links' => $this->partners,
-            'partners' => $users,
+            'partners' => $partners,
             'group' => $group,
             'user' => Auth::user()
         ]);

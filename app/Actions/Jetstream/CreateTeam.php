@@ -45,7 +45,7 @@ class CreateTeam implements CreatesTeams
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],     
-            'type' => ['required', 'string', 'min:1'],
+            
             'community' => ['required', 'string', 'min:1'] 
         ]);
         
@@ -67,7 +67,7 @@ class CreateTeam implements CreatesTeams
             ->with('style', 'danger');
         }
         
-        if (!isset($input['type'])) {
+        /*if (!isset($input['type'])) {
             return 
             redirect()
             ->route('dashboard')
@@ -81,9 +81,9 @@ class CreateTeam implements CreatesTeams
             ->route('dashboard')
             ->with('status', 'The team type selected does not exist!')
             ->with('style', 'danger');
-        }
+        }*/
         
-        $cont = 0;
+        /*$cont = 0;
         foreach ($communities as $community) {
             if ($this->teamTypeService->getTypeByUuid($input['type'])->group_id == $community->id) {
                 break;
@@ -97,7 +97,7 @@ class CreateTeam implements CreatesTeams
             ->route('dashboard')
             ->with('status', 'The team type selected does not belong to you!')
             ->with('style', 'danger');
-        }
+        }*/
 
         if (is_null($this->ownerGroupService->getGroupByUuid($input['community']))) {
             return 
@@ -116,7 +116,7 @@ class CreateTeam implements CreatesTeams
         } 
         $communityOwner = User::find($this->ownerGroupService->getOwnerByGroupUuid($input['community']));
 
-        $input['type'] = $this->teamTypeService->getTypeByUuid($input['type'])->id;
+        //$input['type'] = $this->teamTypeService->getTypeByUuid($input['type'])->id;
         $input['community'] = $this->ownerGroupService->getGroupByUuid($input['community'])->id;
 
         AddingTeam::dispatch($communityOwner[0]);
@@ -128,7 +128,7 @@ class CreateTeam implements CreatesTeams
         ]));
 
         //GUARDAR REGISTRO DE LA CREACION DEL EQUIPO
-        $this->teamTypeHistoryService->setTeamTypeHistory($team->id, $input['type']);
+        //$this->teamTypeHistoryService->setTeamTypeHistory($team->id, $input['type']);
 
         return $team;
     }

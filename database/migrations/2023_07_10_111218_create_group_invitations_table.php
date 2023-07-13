@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('group_invitations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_id');
-            $table->string('email')->unique();
+            $table->string('token');
+            $table->string('email');
             $table->timestamps();
 
             $table->foreign('group_id')->references('id')->on('owner_groups');

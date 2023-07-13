@@ -335,21 +335,11 @@
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
 
-    <label for="table-search" class="sr-only">Search</label>
-    <div class="relative mt-1">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-            </svg>
-        </div>
-        <input type="text" id="table-search" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for Partners">
-    </div><hr class="my-4">
-
     <div class="flex flex-wrap gap-4">
         <div class="h-52 w-40 p-4 bg-gray-100 shadow-lg rounded-lg overflow-hidden">
             <div class="flex justify-center">
                 <div class="relative">
-                    <img class="h-20 rounded-full border-2 border-gray-900" src="{{$owner->profile_photo_url}}" alt="">
+                    <img class="h-20 w-20 object-cover rounded-full border-2 border-gray-900" src="{{$owner->profile_photo_url}}" alt="">
                     <span class="top-0 left-14 absolute w-7 h-7 border-2 border-black bg-yellow-400 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crown" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -370,7 +360,7 @@
                 <div class="h-52 w-40 p-4 bg-gray-100 shadow-lg rounded-lg overflow-hidden">
                     <div class="flex justify-center">
                         <div class="relative">
-                            <img class="h-20 rounded-full border-2 border-gray-900" src="{{$partners[$link->user_id]->profile_photo_url}}" alt="">
+                            <img class="h-20 w-20 object-cover rounded-full border-2 border-gray-900" src="{{$partners[$link->user_id]->profile_photo_url}}" alt="">
                         </div>
                     </div>
                     <div class="p-4 flex justify-center">
@@ -401,7 +391,7 @@
                                         </svg>                                              
                                     </div>
                                     <h1 class="modal-title ml-2 text-gray-900 font-bold"
-                                        id="confirmateModalLabel">Confirmate Deleting</h1>
+                                        id="confirmateModalLabel">Confirmate Removing</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

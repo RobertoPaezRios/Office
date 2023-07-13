@@ -57,47 +57,51 @@
           <!-- UPDATE NAME FORM -->
           <form action="{{route('update-community.update', $id)}}" method="POST">
             @csrf
-          <div class="flex flex justify-between flex-wrap gap-1">
-            <div class="w-full">
-              <x-label for="name" class="text-left mb-2">Name: </x-label>
-              <x-input type="text" name="name" id="name" class="w-3/4" placeholder="Name:" value="{{$name}}"/>
-              <x-input-error for="name" class="mt-2"></x-input-error>
-            </div>
-            <div class="w-full flex gap-5 mt-3">
-              <div id="picker"></div>
-              <div class="w-1/4">
-                <x-label for="color" class="text-left mb-2">Color:</x-label>
-                <x-input type="text" name="color" id="color" class="w-full" placeholder="#" value="{{$color}}"/>
-                <x-input-error for="color" class="mt-2"></x-input-error>
+            <div class="flex flex justify-between flex-wrap gap-1">
+              <div class="w-full">
+                <x-label for="name" class="text-left mb-2">Name: </x-label>
+                <x-input type="text" name="name" id="name" class="w-3/4" placeholder="Name:" value="{{$name}}"/>
+                <x-input-error for="name" class="mt-2"></x-input-error>
+              </div>
+              <div class="w-full flex gap-5 mt-3">
+                <div id="picker"></div>
+                <div class="w-1/4">
+                  <x-label for="color" class="text-left mb-2">Color:</x-label>
+                  <x-input type="text" name="color" id="color" class="w-full" placeholder="#" value="{{$color}}"/>
+                  <x-input-error for="color" class="mt-2"></x-input-error>
+                </div>
+              </div>
+              <div>
+                
               </div>
             </div>
-          </div>
-
-          <div class="mt-4 flex justify-end w-full rounded-lg">
-            @if ($status)
-              <x-button class="bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                </svg>
-                <span class="ml-4">
-                  save                
-                </span>
-              </x-button>
+        
+            <div class="mt-4 flex justify-end w-full" style="z-index:999">
+              @if ($status)
+                <x-button class="bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                  <span class="ml-4">
+                    save                
+                  </span>
+                </x-button>
               @else 
-              <x-button class="hover:bg-gray-800 bg-gray-800" disabled>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                </svg>                  
-              </x-button>
+                <x-button class="hover:bg-gray-800 bg-gray-800" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                  </svg>                  
+                </x-button>
               @endif 
             </div>
           </form>
         </div>
       </div>
+
       <div class="flex gap-8 p-4">
         <div class="w-1/4">
           <span class="text-lg">
-            Community Affiliates
+            Community Partners
           </span><hr class="w-3/4 my-4">
           <span>
             In this page you can manage your partners and affiliates.
@@ -107,7 +111,22 @@
             @livewire('manage-partners', ['uuid' => $uuid])
         </div>
       </div>
-    </div>
+      @if ($owner->id === $user->id)
+        <div class="flex gap-8 p-4">
+          <div class="w-1/4">
+            <span class="text-lg">
+              Invite Partner to the Community
+            </span><hr class="w-3/4 my-4">
+            <span>
+              Write his email and send him an invitation to join your community.
+            </span>
+          </div>
+            <div class="w-3/4 bg-white rounded-lg p-4 shadow-xl overflow-hidden">
+              @livewire('invite-partner', ['uuid' => $uuid])
+            </div>
+          </div>
+        </div>
+      @endif
   </div>
 
   <script>

@@ -14,7 +14,8 @@ class GroupInvitation extends Model
 
     protected $fillable = [
         'email',
-        'group_id'
+        'group_id',
+        'token'
     ];
 
     /**
@@ -26,4 +27,5 @@ class GroupInvitation extends Model
     {
         return $this->hasOne(OwnerGroup::class, 'id', 'group_id');
     }
+    
 }

@@ -29,8 +29,4 @@ class MailService {
       Log::info('Error en el envio del email'. $e->getMessage());
     }
   }
-
-  public function sendMail ($data) {
-    Mail::to($data['to'])->send($data['data']);
-  }
 }

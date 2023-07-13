@@ -15,7 +15,15 @@ class UserService {
     return $this->userRepository->getLicense($userId);
   }
 
+  public function getUserByEmail($email) {
+    return $this->userRepository->getUserByEmail($email);
+  }
+
   public function getUserById ($userId) {
     return $this->userRepository->getUserById($userId);
+  }
+
+  public function getUserByIdAndSearch ($userId, $string) {
+    return $this->userRepository->getUserByIdAndSearch($userId, $string);
   }
 }
